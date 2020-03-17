@@ -27,16 +27,18 @@ export default {
     return axios.get("https://dog.ceo/api/breeds/list");
   },
   getSearchRecipes: function(query) {
+    console.log(query)
     //https://rapidapi.com/spoonacular/api/recipe-food-nutrition?endpoint=55e1b24ae4b0a29b2c36073c
-    const {query, cuisine, diet, excludeIngredients, intolerances, type} = q
-    return axios.get({
+    return axios({
+      "method":"GET",
       "url":"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search",
       "headers":{
-        "content-type":"application/octet-stream",
-        "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        "x-rapidapi-key":"79cdd77d2emsh1fcd47944c92478p11ac47jsn27dbe9aa5a72"
-      },
-      "params": typeof query === 'object' ? query : {query}
-    });  
+      "content-type":"application/octet-stream",
+      "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+      "x-rapidapi-key":"79cdd77d2emsh1fcd47944c92478p11ac47jsn27dbe9aa5a72"
+      },"params":{
+      "query": query
+      }
+      })
   },
 };

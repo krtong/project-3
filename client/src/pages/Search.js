@@ -3,6 +3,7 @@ import API from "../utils/API";
 import Container from "../components/Container";
 import SearchForm from "../components/SearchForm";
 import SearchResults from "../components/SearchResults";
+import RecipeSearchResults from "../components/RecipeSearchResults";
 import Alert from "../components/Alert";
 
 class Search extends Component {
@@ -46,12 +47,12 @@ class Search extends Component {
           >
             {this.state.error}
           </Alert>
-          <RecipeSearch
+          <SearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
             breeds={this.state.breeds}
           />
-          <SearchResults results={this.state.results} />
+          <RecipeSearchResults results={this.state.results} />
         </Container>
       </div>
     );

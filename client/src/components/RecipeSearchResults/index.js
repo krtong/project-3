@@ -2,17 +2,17 @@ import React from "react";
 import "./style.css";
 
 function RecipeSearchResults(props) {
-  const {id, title, readyInMinutes, image, imageUrls: [url]} = props.results;
+  // const {id, title, readyInMinutes, image, imageUrls: [url]} = props.results;
   console.log(props.results)
   return (
     <ul className="list-group search-results">
-      {props.results.map(result => (
+      {/* {props.results.map(result => (
         <li key={result} className="list-group-item">
           <img alt="Recipe" src={image} className="img-fluid" />
           <span>{title}</span>
           <span>readyInMinutes</span>
         </li>
-      ))}
+      ))} */}
     </ul>
   );
 }

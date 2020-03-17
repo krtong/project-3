@@ -7,6 +7,7 @@ import Nav from "./components/Nav";
 import Discover from "./pages/Discover";
 import About from "./pages/About";
 import Search from "./pages/Search";
+import RecipeSearch from "./pages/RecipeSearch"
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
@@ -28,7 +29,7 @@ function App() {
           <Route exact path="/" component={About} />
           <Route exact path="/about" component={About} />
           <Route exact path="/discover" component={Discover} />
-          <Route exact path="/search" component={Search} />
+          <Route exact path="/search" component={RecipeSearch} />
           <Route component={NoMatch} />
         </Switch>
       </div>
