@@ -26,12 +26,12 @@ class Search extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getDogsOfBreed(this.state.search)
+    API.getDearchRecipes(this.state.search)
       .then(res => {
         if (res.data.status === "error") {
           throw new Error(res.data.message);
         }
-        this.setState({ results: res.data.message, error: "" });
+        this.setState({ results: res.results, error: "" });
       })
       .catch(err => this.setState({ error: err.message }));
   };
@@ -46,12 +46,12 @@ class Search extends Component {
           >
             {this.state.error}
           </Alert>
-          <RecipeSearch
+          <SearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
             breeds={this.state.breeds}
           />
-          <SearchResults results={this.state.results} />
+          <RecipeSearchResults results={this.state.results} />
         </Container>
       </div>
     );
