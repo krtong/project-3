@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import API from "../utils/API";
 import Container from "../components/Container";
 import SearchForm from "../components/SearchForm";
+import RecipeSearchForm from "../components/RecipeSearchForm"
 import SearchResults from "../components/SearchResults";
-import RecipeSearchResults from "../components/RecipeSearchResults";
 import Alert from "../components/Alert";
 
 class Search extends Component {
@@ -16,9 +16,9 @@ class Search extends Component {
 
   // When the component mounts, get a list of all available base breeds and update this.state.breeds
   componentDidMount() {
-    API.getBaseBreedsList()
-      .then(res => this.setState({ breeds: res.data.message }))
-      .catch(err => console.log(err));
+    // API.getBaseBreedsList()
+    //   .then(res => this.setState({ breeds: res.data.message }))
+    //   .catch(err => console.log(err));
   }
 
   handleInputChange = event => {
@@ -27,12 +27,14 @@ class Search extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getDogsOfBreed(this.state.search)
+    API.getSearchRecipes(this.state.search)
       .then(res => {
+        
+        console.log("res", res)
         if (res.data.status === "error") {
           throw new Error(res.data.message);
         }
-        this.setState({ results: res.data.message, error: "" });
+        this.setState({ results: res.data.results, error: "" });
       })
       .catch(err => this.setState({ error: err.message }));
   };
@@ -47,12 +49,12 @@ class Search extends Component {
           >
             {this.state.error}
           </Alert>
-          <SearchForm
+          <RecipeSearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
             breeds={this.state.breeds}
           />
-          <RecipeSearchResults results={this.state.results} />
+          <SearchResults results={this.state.results} />
         </Container>
       </div>
     );
