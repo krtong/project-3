@@ -6,17 +6,16 @@ function RecipeSearchForm(props) {
   return (
     <form className="search">
       <div className="form-group">
-        <label htmlFor="breed">Recipe Search:</label>
+        <label htmlFor="breed">Recipe Name:</label>
         <input
           value={props.search}
           onChange={props.handleInputChange}
-          name="recipe"
-          list="recipes"
           type="text"
           className="form-control"
           placeholder="Type in a recipe name to begin"
-          id="breed"
         />
+        <datalist id="recipes">
+        </datalist>
         <button type="submit" onClick={props.handleFormSubmit} className="btn btn-success">
           Search
         </button>

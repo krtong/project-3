@@ -4,12 +4,13 @@ import Container from "../components/Container";
 import SearchForm from "../components/SearchForm";
 import RecipeSearchForm from "../components/RecipeSearchForm"
 import SearchResults from "../components/SearchResults";
+import RecipeSearchResults from "../components/RecipeSearchResults";
 import Alert from "../components/Alert";
 
 class Search extends Component {
   state = {
     search: "",
-    breeds: [],
+    submitClicked: false,
     results: [],
     error: ""
   };
@@ -29,12 +30,10 @@ class Search extends Component {
     event.preventDefault();
     API.getSearchRecipes(this.state.search)
       .then(res => {
-        
-        console.log("res", res)
         if (res.data.status === "error") {
           throw new Error(res.data.message);
         }
-        this.setState({ results: res.data.results, error: "" });
+        this.setState({ results: res.data.results, error: "", submitClicked: true});
       })
       .catch(err => this.setState({ error: err.message }));
   };
@@ -42,7 +41,7 @@ class Search extends Component {
     return (
       <div>
         <Container style={{ minHeight: "80%" }}>
-          <h1 className="text-center">Search for a Recipe!</h1>
+          <h1 className="text-center">Search By Recipe!</h1>
           <Alert
             type="danger"
             style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
@@ -52,9 +51,8 @@ class Search extends Component {
           <RecipeSearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
-            breeds={this.state.breeds}
           />
-          <SearchResults results={this.state.results} />
+          <RecipeSearchResults results={this.state.results} submitClicked={this.state.submitClicked} />
         </Container>
       </div>
     );
