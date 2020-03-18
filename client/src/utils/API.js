@@ -56,7 +56,7 @@ export default {
   
   getVisualizeMenuItemNutrition: id => axiosSpoonacular(`/food/menuItems/${id}/nutritionWidget`), //headers may require: "accept":"text/html"
   
-  getVisialuzeRecipeNutritionById: id => axiosSpoonacular(`/recipes/${id}/nutritionWidget`);
+  getVisialuzeRecipeNutritionById: id => axiosSpoonacular(`/recipes/${id}/nutritionWidget`),
   
   getMatchRecipesToDailyCalories: (targetCalories = 2000, timeFrame = "day") => axiosSpoonacular("/recipes/mealplans/generate", {targetCalories, timeFrame}),
 
