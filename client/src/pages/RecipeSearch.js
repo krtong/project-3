@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 import Container from "../components/Container";
-import SearchForm from "../components/SearchForm";
 import RecipeSearchForm from "../components/RecipeSearchForm"
-import SearchResults from "../components/SearchResults";
 import RecipeSearchResults from "../components/RecipeSearchResults";
 import Alert from "../components/Alert";
 
