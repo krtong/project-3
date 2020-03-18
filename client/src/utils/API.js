@@ -60,6 +60,7 @@ export default {
   
   getMatchRecipesToDailyCalories: (targetCalories = 2000, timeFrame = "day") => axiosSpoonacular("/recipes/mealplans/generate", {targetCalories, timeFrame}),
 
+  // NOTE: optionalParameters are always objects that have one or more parameters that can be used. Only pass in as object with correct key:value pairs.
   getGenerateMealPlan: (optionalParameters) => axiosSpoonacular("/recipes/mealplans/generate", {...optionalParameters}),
     /* optionalParameters
     { timeFrame: STRING, Either for one 'day' or an entire 'week'.
@@ -215,7 +216,7 @@ export default {
 
   getAutocompleteMenuItemSearch: (query, number = 10) => axiosSpoonacular('/food/menuItems/suggest', {query, number}), 
     // OPTIONAL: 'number' must be between 1 and 25.
-    
+
   getTalkToChatbot: (text, contextId = "") => axiosSpoonacular('/food/converse', {text, contextId}), 
   //OPTIONAL: An arbitrary globally unique id for your conversation. The conversation can contain states so you should pass your context id if you want the bot to be able to remember the conversation.
 };
