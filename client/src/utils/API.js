@@ -16,36 +16,6 @@ const axiosSpoonacular = (url, params = {}) => {
 
 
 export default {
-  //Saving the old homework API calls just for reference.
-  // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
-  },
-  // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
-  },
-  // Deletes the book with the given id
-  deleteBook: function(id) {
-    return axios.delete("/api/books/" + id);
-  },
-  // Saves a book to the database
-  saveBook: function(bookData) {
-    return axios.post("/api/books", bookData);
-  },
-  getRandomDog: function() {
-    return axios.get("https://dog.ceo/api/breeds/image/random");
-  },
-  getDogsOfBreed: function(breed) {
-    return axios.get(`https://dog.ceo/api/breed/${breed}/images`);
-  },
-  getBaseBreedsList: function() {
-    return axios.get("https://dog.ceo/api/breeds/list");
-  },
-  getSearchRecipes: function(query) {
-    return axiosSpoonacular('/recipes/search', {query});
-  },
-
 
   //Spoonacular API
   //for more: https://rapidapi.com/spoonacular/api/recipe-food-nutrition?endpoint=596be52ee4b03e024df91f68
