@@ -1,30 +1,23 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Books from "./pages/Books";
-import Detail from "./pages/Detail";
+
 import NoMatch from "./pages/NoMatch";
-import Nav from "./components/Nav";
-import { BookContext } from './context/BookContext';
-import Login from './components/Login'
+import RecipeSearch from "./pages/RecipeSearch"
+import Navbar from "./components/Navbar";;
 
 function App() {
-  const [books, setBooks] = useState([]);
 
   return (
-    <Login></Login>
-    // <BookContext.Provider value={{ books, setBooks }}>
-    // <Router>
-    //   <div>
-    //     <Nav />
-    //     <Switch>
-    //       <Route exact path="/" component={Books} />
-    //       <Route exact path="/books" component={Books} />
-    //       <Route exact path="/books/:id" component={Detail} />
-    //       <Route component={NoMatch} />
-    //     </Switch>
-    //   </div>
-    // </Router>
-    // </BookContext.Provider>
+    <Router>
+      <div>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={() => 'hello world'} />
+          <Route exact path="/search" component={RecipeSearch} />
+          <Route component={NoMatch} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
