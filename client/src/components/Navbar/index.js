@@ -19,6 +19,14 @@ function Navbar() {
               Search
             </Link>
           </li>
+          <li className="nav-item">
+            <Link
+              to="/AdvancedSearch"
+              className={window.location.pathname === "/AdvancedSearch" ? "nav-link active" : "nav-link"}
+            >
+              Advanced
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

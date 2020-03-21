@@ -3,11 +3,12 @@ import API from "../utils/API";
 import Container from "../components/Container";
 import RecipeSearchForm from "../components/RecipeSearchForm"
 import RecipeSearchResults from "../components/RecipeSearchResults";
+import AdvancedSearchFilter from "../components/AdvancedSearchFilter";
 import Alert from "../components/Alert";
 
-class Search extends Component {
+class AdvancedSearch extends Component {
   state = {
-    search: "",
+    query: "",
     submitClicked: false,
     results: [],
     error: ""
@@ -20,45 +21,52 @@ class Search extends Component {
     //   .catch(err => console.log(err));
   }
 
-  handleInputChange = event => {
-    this.setState({ search: event.target.value });
+  searchQuery = event => {
+    const query = event.target.value;
+    this.setState({query});
   };
 
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
+    const {query} = this.state;
     event.preventDefault();
-    API.getSearchRecipes(this.state.search)
-      .then(res => {
-        if (res.data.status === "error") {
-          throw new Error(res.data.message);
-        }
-        this.setState({ results: res.data.results, error: "", submitClicked: true});
-      })
-      .catch(err => this.setState({ error: err.message }));
+    try {
+      const res = await API.getSearchRecipes(query);
+      res.data.status === "error" ? 
+      this.setState({error: res.data.message}) :
+      this.setState({ results: res.data.results, error: "", submitClicked: true});
+      console.log([this.state.error])
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
-  
+
   render() {
     return (
       <div>
         <Container style={{ minHeight: "80%" }}>
-          <h1 className="text-center">Search By Recipe!</h1>
+          <h1 className="text-center">
+            Search By Recipe!
+          </h1>
           <Alert
             type="danger"
             style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
-          >
-            {this.state.error}
+          > 
+          {this.state.error}
           </Alert>
+          <AdvancedSearchFilter />
           <RecipeSearchForm
             handleFormSubmit={this.handleFormSubmit}
-            handleInputChange={this.handleInputChange}
+            handleInputChange={this.searchQuery}
           />
           <RecipeSearchResults 
             results={this.state.results} 
-            submitClicked={this.state.submitClicked}
+            submitClicked={this.state.submitClicked} 
           />
         </Container>
       </div>
     );
   }
-}
+};
 
-export default Search;
+export default AdvancedSearch;
