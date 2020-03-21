@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const axiosSpoonacular = (url, params = {}) => {
+const SPOONACULAR_API = (url, params = {}) => {
   return axios({
-    params,
     method:"GET",
     url:"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com" + url,
     headers:{
       "content-type":"application/octet-stream",
       "x-rapidapi-key": "79cdd77d2emsh1fcd47944c92478p11ac47jsn27dbe9aa5a72",
       "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-    }
+    },
+    params : {...params}
   });
 };
 
@@ -20,25 +20,25 @@ export default {
   //Spoonacular API
   //for more: https://rapidapi.com/spoonacular/api/recipe-food-nutrition?endpoint=596be52ee4b03e024df91f68
 
-  getQuickAnswer: query => axiosSpoonacular('/recipes/quickAnswer', {"q": query}),
+  getQuickAnswer: query => SPOONACULAR_API('/recipes/quickAnswer', {"q": query}),
   
-  getSummarizeRecipe: id => axiosSpoonacular(`/recipes/${id}/summary`),
+  getSummarizeRecipe: id => SPOONACULAR_API(`/recipes/${id}/summary`),
   
-  getVisualizeMenuItemNutrition: id => axiosSpoonacular(`/food/menuItems/${id}/nutritionWidget`), //headers may require: "accept":"text/html"
+  getVisualizeMenuItemNutrition: id => SPOONACULAR_API(`/food/menuItems/${id}/nutritionWidget`), //headers may require: "accept":"text/html"
   
-  getVisialuzeRecipeNutritionById: id => axiosSpoonacular(`/recipes/${id}/nutritionWidget`),
+  getVisialuzeRecipeNutritionById: id => SPOONACULAR_API(`/recipes/${id}/nutritionWidget`),
   
-  getMatchRecipesToDailyCalories: (targetCalories = 2000, timeFrame = "day") => axiosSpoonacular("/recipes/mealplans/generate", {targetCalories, timeFrame}),
+  getMatchRecipesToDailyCalories: (targetCalories = 2000, timeFrame = "day") => SPOONACULAR_API("/recipes/mealplans/generate", {targetCalories, timeFrame}),
 
   // NOTE: optionalParameters are always objects that have one or more parameters that can be used. Only pass in as object with correct key:value pairs.
-  getGenerateMealPlan: (optionalParameters) => axiosSpoonacular("/recipes/mealplans/generate", {...optionalParameters}),
+  getGenerateMealPlan: (optionalParameters) => SPOONACULAR_API("/recipes/mealplans/generate", {...optionalParameters}),
     /* optionalParameters
     { timeFrame: STRING, Either for one 'day' or an entire 'week'.
       targetCalories: NUMBER, What is the caloric target for one day? The meal plan generator will try to get as close as possible to that goal.
       diet: STRING, Enter a diet that the meal plan has to adhere to, e.g. "vegetarian", "vegan", "paleo" etc.
       exclude: STRING, A comma-separated list of allergens or ingredients that must be excluded. }*/
 
-  getRecipeInformationBulk: (idsArray = [], includeNutrition = false) => axiosSpoonacular('/recipes/informationBulk', {includeNutrition, "ids": idsArray.join('%')}),
+  getRecipeInformationBulk: (idsArray = [], includeNutrition = false) => SPOONACULAR_API('/recipes/informationBulk', {includeNutrition, "ids": idsArray.join('%')}),
     /* idsArray:
     ids: ARRAY of numbers REQUIRED
 
@@ -46,7 +46,7 @@ export default {
     { includeNutrition: BOOLEAN, Include nutrition data to the recipe information. } */
       
 
-  getSearchRecipes : (query, optionalParameters)  => axiosSpoonacular('/recipes/search', {query, ...optionalParameters}),
+  getSearchRecipes : (query, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
     /* optionalParameters: 
     { cuisine: STRING,  The cuisine(s) of the recipes. One or more (comma separated) of the following: african, chinese, japanese, korean, vietnamese, thai, indian, british, irish, french, italian, mexican, spanish, middle eastern, jewish, american, cajun, southern, greek, german, nordic, eastern european, caribbean, or latin american.
       diet: STRING, The diet to which the recipes must be compliant. Possible values are: pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian.
@@ -59,18 +59,18 @@ export default {
       instructionsRequired: BOOLEAN Whether the recipes must have instructions. } */
 
 
-  getSearchRecipesByIngredients : (ingredients, optionalParameters) => axiosSpoonacular('/recipes/findByIngredients', {ingredients, ...optionalParameters}),
+  getSearchRecipesByIngredients : (ingredients, optionalParameters) => SPOONACULAR_API('/recipes/findByIngredients', {ingredients, ...optionalParameters}),
     /* optionalParameters
     { number: NUMBER The maximal number of recipes to return (default = 5).
       limitLicense: BOOLEAN, Whether to only show recipes with an attribution license.
       ranking: NUMBER, Whether to maximize used ingredients (1) or minimize missing ingredients (2) first.
       ignorePantry: BOOLEAN Whether to ignore pantry ingredients such as water, salt, flour etc..} */
   
-  getSimilarRecipies: id => axiosSpoonacular(`/recipes/${id}/similar`), 
+  getSimilarRecipies: id => SPOONACULAR_API(`/recipes/${id}/similar`), 
       
-  getExtractRecipeFromWebsite: url => axiosSpoonacular('/recipes/extract', {url}),
+  getExtractRecipeFromWebsite: url => SPOONACULAR_API('/recipes/extract', {url}),
 
-  getSearchGroceryProducts: (query, optionalParameters) => axiosSpoonacular('/food/products/search', {query, ...optionalParameters}), 
+  getSearchGroceryProducts: (query, optionalParameters) => SPOONACULAR_API('/food/products/search', {query, ...optionalParameters}), 
     /* optional parameters:
     { offset: NUMBER, The number of results to skip, defaults to 0.
       number: NUMBER, The number of results to retrieve, defaults to 10.
@@ -83,7 +83,7 @@ export default {
       maxCarbs: NUMBER, The maximum number of grams of carbs the product can have.
       minCalories: NUMBER, The minimum number of calories the product can have. } */
 
-  getAutocompleteIngredientsSearch: (query, optionalParameters) => axiosSpoonacular('/food/ingredients/autocomplete', {query, ...optionalParameters}), 
+  getAutocompleteIngredientsSearch: (query, optionalParameters) => SPOONACULAR_API('/food/ingredients/autocomplete', {query, ...optionalParameters}), 
     /* optionalParameters:
     { number: NUMBER, The number of results to return, between [1,100]
       metaInformation: BOOLEAN, Whether to return more meta information about the ingredients.
@@ -91,7 +91,7 @@ export default {
       All found ingredients must not cause problems for people with one of the given tolerances. 
       Possible values are: dairy, egg, gluten, peanut, sesame, seafood, shellfish, soy, sulfite, tree nut, and wheat. }  */
 
-  getSearchRecipesComplex: (requiredParameters, optionalParameters) => axiosSpoonacular('/recipes/searchComplex', {...requiredParameters, ...optionalParameters}), 
+  getSearchRecipesComplex: (requiredParameters, optionalParameters) => SPOONACULAR_API('/recipes/searchComplex', {...requiredParameters, ...optionalParameters}), 
     /* requiredParameters: {
       limitLicense: BOOLEAN, Whether the recipes should have an open license that allows for displaying with proper attribution.
       offset: NUMBER, The number of results to skip (between 0 and 900).
@@ -184,9 +184,9 @@ export default {
     author: STRING, The username of the recipe author.
     equipment: STRING, The equipment required. Multiple values will be interpreted as 'or'. For example, value could be "blender, frying pan, bowl" } */
 
-  getAutocompleteMenuItemSearch: (query, number = 10) => axiosSpoonacular('/food/menuItems/suggest', {query, number}), 
+  getAutocompleteMenuItemSearch: (query, number = 10) => SPOONACULAR_API('/food/menuItems/suggest', {query, number}), 
     // OPTIONAL: 'number' must be between 1 and 25.
 
-  getTalkToChatbot: (text, contextId = "") => axiosSpoonacular('/food/converse', {text, contextId}), 
+  getTalkToChatbot: (text, contextId = "") => SPOONACULAR_API('/food/converse', {text, contextId}), 
   //OPTIONAL: An arbitrary globally unique id for your conversation. The conversation can contain states so you should pass your context id if you want the bot to be able to remember the conversation.
 };
