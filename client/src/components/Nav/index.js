@@ -1,13 +1,13 @@
 import React, {useContext} from "react";
 import { Link } from 'react-router-dom';
-import { BookContext } from '../../context/BookContext';
+import { UserContext } from '../../context/UserContext';
 
 function Nav() {
-  const { books } = useContext(BookContext);
+  const { users } = useContext(UserContext);
 
   const calcTotalLikes = () => {
-    return books.reduce((totalLikes, book) => {
-      return book.likes ? book.likes + totalLikes : totalLikes;
+    return users.reduce((totalLikes, user) => {
+      return user.likes ? user.likes + totalLikes : totalLikes;
     }, 0);
   }
 

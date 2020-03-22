@@ -7,46 +7,47 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 import { LikeButton } from '../components/LikeButton';
-import { BookContext } from '../context/BookContext';
+import { UserContext } from '../context/UserContext';
 
-const Books = () => {
+const Users = () => {
   const [formData, setFormData] = useState({
     author: '',
     synopsis: '',
     title: ''
   });
-  const {books, setBooks} = useContext(BookContext);
+  const {users, setUsers} = useContext(UserContext);
 
-  const loadBooks = () => {
-    API.getBooks()
+  const loadUsers = () => {
+    API.getUsers()
       .then(res => {
-        setBooks(res.data)
+        console.log('res.data', res.data)
+        setUsers(res.data)
       }
       )
       .catch(err => console.log(err));
   };
 
   useEffect(() => {
-     if (books.length === 0) {
-     loadBooks();
+     if (users.length === 0) {
+     loadUsers();
      }
    }, []);
 
-  const deleteBook = id => {
-    API.deleteBook(id)
+  const deleteUser = id => {
+    API.deleteUser(id)
       .then(res => {
-        const remainingBooks = books.filter(book => book._id !== id);
-        setBooks(remainingBooks);
+        const remainingUsers = users.filter(user => user._id !== id);
+        setUsers(remainingUsers);
       })
       .catch(err => console.log(err));
   };
 
   const incrementLikes = id => {
-    console.log('id of book to increase likes', id, books);
-    const indexToUpdate = books.findIndex(book => book._id === id);
-    const newBooks = [...books];
-    newBooks[indexToUpdate].likes = newBooks[indexToUpdate].likes ? newBooks[indexToUpdate].likes + 1 : 1;
-    setBooks(newBooks);
+    console.log('id of user to increase likes', id, users);
+    const indexToUpdate = users.findIndex(user => user._id === id);
+    const newUsers = [...users];
+    newUsers[indexToUpdate].likes = newUsers[indexToUpdate].likes ? newUsers[indexToUpdate].likes + 1 : 1;
+    setUsers(newUsers);
 
   }
 
@@ -64,13 +65,13 @@ const Books = () => {
     const {author, synopsis, title} = formData;
 
     if (title && author) {
-      API.saveBook({
+      API.saveUser({
         author,
         likes: 0,
         synopsis,
         title
       })
-        .then(res => loadBooks())
+        .then(res => loadUsers())
         .catch(err => console.log(err));
     }
   };
@@ -80,7 +81,7 @@ const Books = () => {
         <Row>
           <Col size="md-6">
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>What Users Should I Read?</h1>
             </Jumbotron>
             <form>
               <Input
@@ -105,25 +106,25 @@ const Books = () => {
                 disabled={!(formData.author && formData.title)}
                 onClick={handleFormSubmit}
               >
-                Submit Book
+                Submit User
               </FormBtn>
             </form>
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>Books On My List</h1>
+              <h1>Users On My List</h1>
             </Jumbotron>
-            {books.length ? (
+            {users.length ? (
               <List>
-                {books.map(book => (
-                  <ListItem key={book._id}>
-                    <LikeButton id={book._id} incrementLikes={incrementLikes} likes={book.likes | 0} />
-                    <Link to={"/books/" + book._id}>
+                {users.map(user => (
+                  <ListItem key={user._id}>
+                    <LikeButton id={user._id} incrementLikes={incrementLikes} likes={user.likes | 0} />
+                    <Link to={"/users/" + user._id}>
                       <strong>
-                        {book.title} by {book.author}
+                        {user.title} by {user.author}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => deleteBook(book._id)} />
+                    <DeleteBtn onClick={() => deleteUser(user._id)} />
                   </ListItem>
                 ))}
               </List>
@@ -136,4 +137,4 @@ const Books = () => {
     );
 }
 
-export default Books;
+export default Users;
