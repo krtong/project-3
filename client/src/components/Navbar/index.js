@@ -27,6 +27,18 @@ function Navbar() {
               Advanced
             </Link>
           </li>
+          {/* ******************************************************** */}
+          {/* START Cody additions          */}
+          <li className="nav-item">
+            <Link
+              to="/auth/google"
+              className={window.location.pathname === "/auth/google" ? "nav-link active" : "nav-link"}
+            >
+              Login
+            </Link>
+          </li>
+          {/* END Cody additions */}
+          {/* ******************************************************** */}
         </ul>
       </div>
     </nav>
