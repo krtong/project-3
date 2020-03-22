@@ -25,16 +25,53 @@ class Search extends Component {
   };
 
   handleFormSubmit = event => {
-    event.preventDefault();
-    API.getSearchRecipes(this.state.search)
-      .then(res => {
-        if (res.data.status === "error") {
-          throw new Error(res.data.message);
-        }
-        this.setState({ results: res.data.results, error: "", submitClicked: true});
-      })
-      .catch(err => this.setState({ error: err.message }));
-  };
+      const query = event.target.value;
+      this.setState({query});
+    };
+  
+  
+    handleFormSubmit = async event => {
+      event.preventDefault();
+  
+      const requiredParameters = {
+        query: this.state.search,
+        number: 10,
+        offset: 0,
+      }
+    
+      const optionalParameters = {
+        limitLicense: false,
+        fillIngrediants: true,
+        instructionsRequired: true,
+        addRecipeInformation: true,
+      }
+      
+      try {
+        //get initial set of data from basic search
+        let {data, status} = await (await API.getSearchRecipes(requiredParameters, optionalParameters));
+        // let {data, message, status} = response1
+        const ids = response1.data.results.map(({id}) => id)
+        console.log({response1})
+        // status === "error" ? 
+        // this.setState({error: message}) :
+        // this.setState({ results: data, error: "", submitClicked: true});
+
+        //get more data once ids have been recieved. this may take a while, so we load the previous data first. 
+        const response2 = await API.getRecipeInformationBulk(ids.join(','));
+        // let results = response2.data.results
+        console.log({response2})
+        // message = response2.statusMessage
+        // status === "error" ? 
+        // this.setState({error: statusMessage}) :
+        // this.setState({ results, error: "", submitClicked: true});
+
+      
+      }
+  
+      catch (error) {
+        console.log(error);
+      }
+    };
   
   render() {
     return (

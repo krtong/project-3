@@ -45,7 +45,7 @@ class AdvancedSearch extends Component {
     }
     
     try {
-      const res = await API.getSearchRecipesComplex(requiredParameters, optionalParameters);
+      const res = await API.getSearchRecipes(requiredParameters, optionalParameters);
       res.data.status === "error" ? 
       this.setState({error: res.data.message}) :
       this.setState({ results: res.data.results, error: "", submitClicked: true});
@@ -58,14 +58,29 @@ class AdvancedSearch extends Component {
     }
   };
 
-  /*
-  getSearchRecipesComplex: (requiredParameters, optionalParameters) => SPOONACULAR_API('/recipes/searchComplex', {...requiredParameters, ...optionalParameters}), 
-    /* requiredParameters: {
-      limitLicense: BOOLEAN, Whether the recipes should have an open license that allows for displaying with proper attribution.
-      offset: NUMBER, The number of results to skip (between 0 and 900).
-      number: NUMBER, The number of results to return (between 1 and 100).
-    }
-    */
+
+  // getRecipeInformationBulk: (idsArray = [], includeNutrition = false) => SPOONACULAR_API('/recipes/informationBulk', {includeNutrition, "ids": idsArray.join('%')}),
+  /* idsArray:
+  ids: ARRAY of numbers REQUIRED
+
+  Optional Parameters:
+  { includeNutrition: BOOLEAN, Include nutrition data to the recipe information. } */
+
+
+  // getSearchRecipes : (query, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
+  /* optionalParameters: 
+  { cuisine: STRING,  The cuisine(s) of the recipes. One or more (comma separated) of the following: african, chinese, japanese, korean, vietnamese, thai, indian, british, irish, french, italian, mexican, spanish, middle eastern, jewish, american, cajun, southern, greek, german, nordic, eastern european, caribbean, or latin american.
+    diet: STRING, The diet to which the recipes must be compliant. Possible values are: pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian.
+    excludeIngredients: STRING, An comma-separated list of ingredients or ingredient types that must not be contained in the recipes.
+    intolerances: STRING A comma-separated list of intolerances. All found recipes must not have ingredients that could cause problems for people with one of the given tolerances. Possible values are: dairy, egg, gluten, peanut, sesame, seafood, shellfish, soy, sulfite, tree nut, and wheat.
+    number: NUMBER, The number of results to return (between 0 and 100).
+    offset: NUMBER, The number of results to skip (between 0 and 900).
+    type: STRING, The type of the recipes. One of the following: main course, side dish, dessert, appetizer, salad, bread, breakfast, soup, beverage, sauce, or drink.
+    limitLicense: BOOLEAN, Whether the recipes should have an open license that allows for displaying with proper attribution.
+    instructionsRequired: BOOLEAN Whether the recipes must have instructions. } */
+
+
+
 
   render() {
     return (
@@ -90,7 +105,7 @@ class AdvancedSearch extends Component {
               const diet = root.diet;
 
               //this worked with the fake data from the rapidAPI example, but the real data is different and we'll have to find a workaround.
-              const extendedIngredients = JSON.stringify(root.analyzedInstructions, null, 2)
+              const extendedIngredients = root.analyzedInstructions ? JSON.stringify(root.analyzedInstructions, null, 2) : null
               return(
                 <div>
                   <div>{title} </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const SPOONACULAR_API = (url, params = {}) => {
+  console.log({url, params})
   return axios({
     method:"GET",
     url:"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com" + url,
@@ -35,7 +36,7 @@ export default {
       diet: STRING, Enter a diet that the meal plan has to adhere to, e.g. "vegetarian", "vegan", "paleo" etc.
       exclude: STRING, A comma-separated list of allergens or ingredients that must be excluded. }*/
 
-  getRecipeInformationBulk: (idsArray = [], includeNutrition = false) => SPOONACULAR_API('/recipes/informationBulk', {includeNutrition, "ids": idsArray.join('%')}),
+  getRecipeInformationBulk: (ids = [], includeNutrition = false) => SPOONACULAR_API('/recipes/informationBulk', {includeNutrition, ids}),
     /* idsArray:
     ids: ARRAY of numbers REQUIRED
 
@@ -43,7 +44,7 @@ export default {
     { includeNutrition: BOOLEAN, Include nutrition data to the recipe information. } */
       
 
-  getSearchRecipes : (query, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
+  getSearchRecipes : ({query}, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
     /* optionalParameters: 
     { cuisine: STRING,  The cuisine(s) of the recipes. One or more (comma separated) of the following: african, chinese, japanese, korean, vietnamese, thai, indian, british, irish, french, italian, mexican, spanish, middle eastern, jewish, american, cajun, southern, greek, german, nordic, eastern european, caribbean, or latin american.
       diet: STRING, The diet to which the recipes must be compliant. Possible values are: pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian.
