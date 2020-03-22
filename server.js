@@ -23,8 +23,8 @@ app.use(passport.session()); // Used to persist login sessions
 
 // Strategy config
 passport.use(new GoogleStrategy({
-    clientID: '673895943430-9hda66bfcjdovm2o8jqkiget21jfor9i.apps.googleusercontent.com',
-    clientSecret: 'm17zFLlOyGNd3mvn0p2PeAQT',
+    clientID: 'SEE SLACK',
+    clientSecret: 'SEE SLACK',
     callbackURL: 'http://localhost:3000/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
