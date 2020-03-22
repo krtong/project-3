@@ -5,6 +5,7 @@ import NoMatch from "./pages/NoMatch";
 import RecipeSearch from "./pages/RecipeSearch";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login";
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
           <Route exact path="/" component={() => 'hello world'} />
           <Route exact path="/search" component={RecipeSearch} />
           <Route exact path="/AdvancedSearch" component={AdvancedSearch} />
-          <Route exact path="/auth/google" component={() => 'Hello there, login should be here instead'} />
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/auth/login" component={() => 'WORKING ALMOST KIND OF'}/>
           <Route component={NoMatch} />
         </Switch>
       </div>

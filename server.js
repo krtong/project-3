@@ -57,14 +57,14 @@ app.get('/', (req, res) => {
 });
 
 // passport.authenticate middleware is used here to authenticate the request
-// app.get('/auth/google', passport.authenticate('google', {
-//   scope: ['profile'] // Used to specify the required data
-// }));
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['profile'] // Used to specify the required data
+}));
 
 // Logout route
-router.get('/auth/google', (req, res) => {
-  res.send('HELLO THERE CODY');
-});
+// app.get('/auth/google', (req, res) => {
+//   res.send('HELLO THERE CODY');
+// });
 
 // The middleware receives the data from Google and runs the function on Strategy config
 app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {

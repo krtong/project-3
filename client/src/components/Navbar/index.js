@@ -28,11 +28,11 @@ function Navbar() {
             </Link>
           </li>
           {/* ******************************************************** */}
-          {/* START Cody additions          */}
+          {/* START Cody additions */}
           <li className="nav-item">
             <Link
-              to="/auth/google"
-              className={window.location.pathname === "/auth/google" ? "nav-link active" : "nav-link"}
+              to="/login"
+              className={window.location.pathname === "/login" ? "nav-link active" : "nav-link"}
             >
               Login
             </Link>

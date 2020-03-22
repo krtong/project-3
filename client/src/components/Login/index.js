@@ -50,10 +50,10 @@ function Login() {
         
                     <ul>
                         <li>
-                            <button class="fb">Connect with Facebook</button>
+                            <a class="fb" href="/auth/google">Connect with Hello</a>
                         </li>
                         <li>
-                            <button class="tw">Connect with Twitter</button>
+                            <a class="tw" href="https://google.com/">Connect with Twitter</a>
                         </li>
                     </ul>
                     
@@ -77,7 +77,7 @@ function Login() {
         
                     <ul>
                         <li>
-                            <button class="fb">Connect with Facebook</button>
+                            <button class="fb" href="/">EHLLOLOLOLO</button>
                         </li>
                         <li>
                             <button class="tw">Connect with Twitter</button>
