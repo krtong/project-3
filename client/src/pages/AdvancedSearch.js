@@ -29,6 +29,7 @@ class AdvancedSearch extends Component {
   handleFormSubmit = async event => {
     const {query} = this.state;
     event.preventDefault();
+    
     try {
       const res = await API.getSearchRecipes(query);
       res.data.status === "error" ? 
