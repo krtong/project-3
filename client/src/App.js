@@ -18,7 +18,7 @@ function App() {
           <Route exact path="/search" component={RecipeSearch} />
           <Route exact path="/AdvancedSearch" component={AdvancedSearch} />
           <Route exact path="/login" component={Login}/>
-          <Route exact path="/auth/login" component={() => 'WORKING ALMOST KIND OF'}/>
+          {/* <Route exact path="/auth/google" component={() => "WORKING ALMOST KIND OF"}/> */}
           <Route component={NoMatch} />
         </Switch>
       </div>

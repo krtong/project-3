@@ -110,3 +110,6 @@ build/
 
 # Mac Metadata folder
 .DS_Store
+
+# Keys
+keys.js

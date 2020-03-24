@@ -47,10 +47,10 @@ function Login() {
                             </div>
                         </fieldset>
                     </div>
-        
                     <ul>
                         <li>
-                            <a class="fb" href="/auth/google">Connect with Hello</a>
+                            {/* may need to go back and fix the route - for deployment? */}
+                            <a class="fb" href="http://localhost:3001/auth/google">Connect with Hello</a>
                         </li>
                         <li>
                             <a class="tw" href="https://google.com/">Connect with Twitter</a>
