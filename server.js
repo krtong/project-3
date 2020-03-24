@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 // START Cody additions
 const authRoutes = require('./routes/auth-routes')
 const passport = require('passport');
+const passportSetup = require('./config/passport-setup')
 const GoogleStrategy = require('passport-google-oauth20');
 const cookieSession = require('cookie-session');
 const router = require("express").Router();

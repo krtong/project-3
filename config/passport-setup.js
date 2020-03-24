@@ -1,9 +1,10 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('./keys');
-const User = require('../models/user-model')
+const User = require('../models/user')
 
 passport.serializeUser((user, done) => {
+  console.log('user.id HERE: ', user.id)
   done(null, user.id)
 })
 
@@ -21,6 +22,7 @@ passport.use(
     clientSecret: keys.google.clientSecret
   }, (accessToken, refreshToken, profile, done) => {
     // check if user already exists in db
+    console.log("OK, we got before the id")
     User.findOne({googleId: profile.id}).then((currentUser) => {
       if(currentUser) {
         // already have the user
