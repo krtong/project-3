@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import API from "../utils/API";
-import Container from "../components/Container";
-import RecipeSearchForm from "../components/RecipeSearchForm"
-import RecipeSearchResults from "../components/RecipeSearchResults";
 import AdvancedSearchFilter from "../components/AdvancedSearchFilter";
+import RecipeSearchResults from "../components/RecipeSearchResults";
+import RecipeSearchForm from "../components/RecipeSearchForm"
+import Container from "../components/Container";
+import React, { Component } from "react";
 import Alert from "../components/Alert";
+import API from "../utils/API";
 
 class AdvancedSearch extends Component {
   state = {
@@ -48,44 +48,52 @@ class AdvancedSearch extends Component {
       const basicJSON = await API.getSearchRecipes(requiredParameters());
       let results = (function(api = basicJSON.data.results){
         let json = {};
+
         for (let i = 0; i < api.length; i++){
-          const recipe = api[i];
-          json[recipe.id] = {
-            id: recipe.id,
-            title: recipe.title,
-            readyInMinutes: recipe.readyInMinutes,
-            servings: recipe.servings,
-            imageURL: "https://spoonacular.com/recipeImages/" + recipe.image
+          const {id, title, readyInMinutes, servings, image} = api[i];
+          json[id] = {
+            id,
+            title,
+            readyInMinutes,
+            servings,
+            imageURL: "https://spoonacular.com/recipeImages/" + image
           };
-        }
+        };
+
         return json;
       })();
+
       this.setState({ results: Object.values(results), error: "", submitClicked: true});
-      /* id: 723984
-          title: "Cabbage Salad with Peanuts"
-          readyInMinutes: 15
-          servings: 2
-          image: "cabbage-salad-with-peanuts-723984.jpg"
-          imageUrls: Array(1)
-          0: "cabbage-salad-with-peanuts-723984.jpg" 
+      /* 
+      basicJSON = {
+        id: 723984
+        title: "Cabbage Salad with Peanuts"
+        readyInMinutes: 15
+        servings: 2
+        image: "cabbage-salad-with-peanuts-723984.jpg"
+        imageUrls: Array(1)
+        0: "cabbage-salad-with-peanuts-723984.jpg" 
+      }
       */
 
-      const complexJSON = await API.getSearchRecipesComplex(requiredParameters(), optionalParameters)
-      console.log("complexJSON", complexJSON.data.results[0])
-      complexJSON.data.results.forEach(recipe => {
-        Object.assign(results[recipe.id], {
-          ingredients: recipe.missedIngredients,
-          diets: recipe.diets,
-          recipeUrl: recipe.sourceUrl,
-          urlName: recipe.sourceUrl.split('http://').join('').split('www.').join('').split('.com')[0]
 
+      const complexJSON = await API.getSearchRecipesComplex(requiredParameters(), optionalParameters);
+
+      complexJSON.data.results.forEach(({id, missedIngredients, diets, sourceUrl}) => 
+
+        Object.assign(results[id], {
+          diets,
+          recipeUrl: sourceUrl,
+          ingredients: missedIngredients,
+          urlName: sourceUrl.split('http://').join('').split('www.').join('').split('.com')[0]
         })
-      })
-      console.log(Object.values(results)[0].recipeUrl)
-      this.setState({ results: Object.values(results), error: "", submitClicked: true});
 
-      /* complexJSON 
-      {vegetarian: true, vegan: true, glutenFree: true, dairyFree: true, veryHealthy: false, …}
+      );
+
+      this.setState({ results: Object.values(results), error: "", submitClicked: true});
+      /* 
+      complexJSON = {
+      vegetarian: true, vegan: true, glutenFree: true, dairyFree: true, veryHealthy: false, …}
       vegetarian: true
       vegan: true
       glutenFree: true
@@ -176,40 +184,36 @@ class AdvancedSearch extends Component {
       unusedIngredients: Array(0)
       length: 0
       __proto__: Array(0)
-      __proto__: Object */
-            // const ingredientsJSON = await API.getRecipeInformationBulk()
-            // res.data.status === "error" ? 
-            // this.setState({error: res.data.message}) :
-          
-            // console.log([this.state.error])
+      __proto__: Object 
+    }*/
+
+    // const ingredientsJSON = await API.getRecipeInformationBulk()
+    // res.data.status === "error" ? 
+    // this.setState({error: res.data.message}) :
+
+    // console.log([this.state.error])
+
     }
+
     catch (error) {
       console.log(error);
     }
   };
 
+
+
   render() {
+    const {searchQuery, handleFormSubmit} = this;
+    const {error, submitClicked, results} = this.state;
+    const alertCSS = { opacity: this.state.error ? 1 : 0, marginBottom: 10 };
     return (
       <div>
         <Container style={{ minHeight: "80%" }}>
-          <h1 className="text-center">
-            Search By Recipe!
-          </h1>
-          <Alert
-            type="danger"
-            style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
-          > 
-          {this.state.error}
-          </Alert>
+          <h1 className="text-center"> Search By Recipe! </h1>
+          <Alert style={alertCSS} type="danger"> {error} </Alert>
           <AdvancedSearchFilter />
-          <RecipeSearchForm
-            handleFormSubmit={this.handleFormSubmit}
-            handleInputChange={this.searchQuery}
-          />
-          <RecipeSearchResults 
-            results={this.state.results} 
-            submitClicked={this.state.submitClicked} 
-          />
+          <RecipeSearchForm handleFormSubmit={handleFormSubmit} handleInputChange={searchQuery} />
+          <RecipeSearchResults results={results} submitClicked={submitClicked} />
         </Container>
       </div>
     );
