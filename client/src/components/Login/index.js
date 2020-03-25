@@ -50,10 +50,10 @@ function Login() {
                     <ul>
                         <li>
                             {/* may need to go back and fix the route - for deployment? */}
-                            <a class="fb" href="http://localhost:3001/auth/google">Connect with Hello</a>
+                            <a class="fb" href="http://localhost:3001/auth/google">Connect with Google</a>
                         </li>
                         <li>
-                            <a class="tw" href="https://google.com/">Connect with Twitter</a>
+                            <a class="tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
                         </li>
                     </ul>
                     

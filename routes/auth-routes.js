@@ -13,15 +13,27 @@ router.get('/logout', (req, res) => {
     res.redirect('/')
 });
 
-// auth with google+
-router.get('/google', passport.authenticate('google', {
-  scope: ['profile']
-}));
+//Google oAuth
+  router.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+  }));
 
-// callback route for google to redirect to
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  // res.send(req.user)
-  res.redirect('http://localhost:3000/search');
-})
+  // callback route for google to redirect to
+  router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    // res.send(req.user)
+    res.redirect('http://localhost:3000/search');
+  })
+
+//Facebook oAuth
+  router.get('/facebook', passport.authenticate('facebook', {
+    scope: ['public_profile', 'email']
+  }));
+
+  // callback route for google to redirect to
+  router.get('/facebook/redirect', passport.authenticate('facebook'), (req, res) => {
+    // res.send(req.user)
+    res.redirect('http://localhost:3000/search');
+  })
+
 
 module.exports = router;
