@@ -225,6 +225,7 @@ export default {
   },
   // Saves a book to the database
   saveRecipe: function(recipeData) {
+    console.log("saveRecipe", recipeData)
     return axios.post("/api/users", recipeData);
   }
 };
