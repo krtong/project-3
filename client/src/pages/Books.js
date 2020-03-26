@@ -28,11 +28,11 @@ const Books = () => {
     .catch(err => console.log(err));
   };
   
-  useEffect(() => {
-     if (recipes.length === 0) {
-     loadRecipes();
-     }
-   }, []);
+  // useEffect(() => {
+  //    if (recipes.length === 0) {
+  //    loadRecipes();
+  //    }
+  //  }, []);
 
   const deleteBook = id => {
     API.deleteBook(id)
@@ -109,7 +109,7 @@ const Books = () => {
             <Jumbotron>
               <h1>Books On My List</h1>
             </Jumbotron>
-            {recipes.length ? (
+            {/* {recipes.length ? (
               <List>
                 {users.map(user => {
                   console.log("user", user);
@@ -129,7 +129,7 @@ const Books = () => {
               </List>
             ) : (
               <h3>No Results to Display</h3>
-            )}
+            )} */}
           </Col>
         </Row>
       </Container>

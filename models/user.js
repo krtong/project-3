@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   username: { type: String, required: true },
-  id: { type: Number, required: true },
+  // id: { type: Number },
   googleId: String,
+  facebookID: String,
   thumbnail: String,
+  email: String,
   diet: [],
   intolerances: [],
   recipes: [
