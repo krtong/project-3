@@ -2,5 +2,6 @@
 
 export const UserContext = createContext({
     users: [],
-    setUsers: (e) => {console.log("setUsers(e)", e)}
+    setUsers: () => {},
+    setRecipes: (usersArray) => {console.log(usersArray)}
 })

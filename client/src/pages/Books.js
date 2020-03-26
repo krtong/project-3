@@ -13,10 +13,12 @@ import { RecipeContext } from "../context/RecipeContext";
 const Books = () => {
   const [formData, setFormData] = useState({
     title: '',
-    id: ''
+    id: "5e7ad9605383035a44651616",
   });
-  const {recipes, setRecipes} = useContext(RecipeContext);
-
+  const {users, setRecipes} = useContext(UserContext);
+  // console.log("users", users, "setRecipes", )
+  const userObject = users.filter(({_id}) => _id === this.state.id);
+  console.log(userObject)
   const loadRecipes = () => {
     API.getUsers()
       .then(res => {
@@ -113,17 +115,21 @@ const Books = () => {
             </Jumbotron>
             {recipes.length ? (
               <List>
-                {recipes.map(recipe => (
-                  <ListItem key={recipe.id}>
-                    {/* <LikeButton id={book._id} incrementLikes={incrementLikes} likes={book.likes | 0} /> */}
-                    <Link to={"/users/" + recipe.id}>
-                      <strong>
-                        {recipe.title}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => deleteBook(recipe.id)} />
-                  </ListItem>
-                ))}
+                {users.map(user => {
+                  console.log("user", user)
+                  // render(
+                  // <ListItem key={book._id}>
+                  //   <LikeButton id={book._id} incrementLikes={incrementLikes} likes={book.likes | 0} />
+                  //   <Link to={"/users/" + book._id}>
+                  //     <strong>
+                  //       {book.title} by {book.author}
+                  //     </strong>
+                  //   </Link>
+                  //   <DeleteBtn onClick={() => deleteBook(book._id)} />
+                  // </ListItem>
+                // )
+              }
+                )}
               </List>
             ) : (
               <h3>No Results to Display</h3>
