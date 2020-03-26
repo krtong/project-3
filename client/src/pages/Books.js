@@ -7,7 +7,8 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 import { LikeButton } from '../components/LikeButton';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from "../context/UserContext";
+import { RecipeContext } from "../context/RecipeContext";
 
 const Books = () => {
   const [formData, setFormData] = useState({
@@ -19,32 +20,37 @@ const Books = () => {
   const userObject = users.filter(({_id}) => _id === this.state.id);
   console.log(userObject)
   const loadRecipes = () => {
-    API.getRecipes()
+    API.getUsers()
       .then(res => {
-        setRecipes(res.data)
+        
+        console.log('res.data', res.data)
+        console.log('res.data[0].recipes', res.data[0].recipes)
+        setRecipes(res.data[0].recipes)
+        console.log('recipes', recipes)
+        console.log("setRecipes", setRecipes)
       })
       .catch(err => console.log(err));
   };
 
   useEffect(() => {
-     if (users.length === 0) {
-      loadRecipes();
+     if (recipes.length === 0) {
+     loadRecipes();
      }
    }, []);
 
   const deleteBook = id => {
     API.deleteBook(id)
       .then(res => {
-        const remainingBooks = users.filter(book => book._id !== id);
+        const remainingBooks = recipes.filter(book => book._id !== id);
         setRecipes(remainingBooks);
       })
       .catch(err => console.log(err));
   };
 
   const incrementLikes = id => {
-    console.log('id of book to increase likes', id, users);
-    const indexToUpdate = users.findIndex(book => book._id === id);
-    const newBooks = [...users];
+    console.log('id of book to increase likes', id, recipes);
+    const indexToUpdate = recipes.findIndex(book => book._id === id);
+    const newBooks = [...recipes];
     newBooks[indexToUpdate].likes = newBooks[indexToUpdate].likes ? newBooks[indexToUpdate].likes + 1 : 1;
     setRecipes(newBooks);
 
@@ -62,8 +68,10 @@ const Books = () => {
     event.preventDefault();
     
     const {id, title} = formData;
-
-    if (title && id) {
+    //id and title are getting this far... error must be after here... 🌭
+    console.log({id, title})
+    
+   if (title && id) {
       API.saveRecipe({
         title,
         id
@@ -105,7 +113,7 @@ const Books = () => {
             <Jumbotron>
               <h1>Books On My List</h1>
             </Jumbotron>
-            {users.length ? (
+            {recipes.length ? (
               <List>
                 {users.map(user => {
                   console.log("user", user)

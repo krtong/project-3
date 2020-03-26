@@ -64,7 +64,7 @@ export default {
       ranking: NUMBER, Whether to maximize used ingredients (1) or minimize missing ingredients (2) first.
       ignorePantry: BOOLEAN Whether to ignore pantry ingredients such as water, salt, flour etc..} */
   
-  getSimilarRecipies: id => SPOONACULAR_API(`/recipes/${id}/similar`), 
+  getSimilarRecipes: id => SPOONACULAR_API(`/recipes/${id}/similar`), 
       
   getExtractRecipeFromWebsite: url => SPOONACULAR_API('/recipes/extract', {url}),
 
@@ -225,7 +225,7 @@ export default {
   },
   // Saves a book to the database
   saveRecipe: function(recipeData) {
-    console.log("saveRecipe", recipeData)
+    console.log("saveRecipe: recipeData", recipeData)
     return axios.post("/api/users", recipeData);
   }
 };

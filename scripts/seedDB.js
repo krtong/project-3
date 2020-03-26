@@ -1,4 +1,3 @@
-
 // const mongoose = require("mongoose");
 // const db = require("../models");
 
@@ -151,10 +150,10 @@ const userSeed = [
     thumbnail: "String",
     diet: [],
     intolerances: [],
-    recipies: [
+    recipes: [
       {
-        title: String,
-        id: Number,
+        title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
+        id: 716429,
         image: { type: String },
         servingSize: { type: Number },
         cookTime: { type: Number },
