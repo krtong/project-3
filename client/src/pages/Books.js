@@ -7,7 +7,8 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 import { LikeButton } from '../components/LikeButton';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from "../context/UserContext";
+import { RecipeContext } from "../context/RecipeContext";
 
 const Books = () => {
   const [formData, setFormData] = useState({
@@ -28,8 +29,8 @@ const Books = () => {
   };
   
   useEffect(() => {
-     if (users.length === 0) {
-      loadRecipes();
+     if (recipes.length === 0) {
+     loadRecipes();
      }
    }, []);
 
@@ -63,8 +64,10 @@ const Books = () => {
     event.preventDefault();
     
     const {id, title} = formData;
-
-    if (title && id) {
+    //id and title are getting this far... error must be after here... 🌭
+    console.log({id, title})
+    
+   if (title && id) {
       API.saveRecipe({
         title,
         id
@@ -106,7 +109,7 @@ const Books = () => {
             <Jumbotron>
               <h1>Books On My List</h1>
             </Jumbotron>
-            {users.length ? (
+            {recipes.length ? (
               <List>
                 {users.map(user => {
                   console.log("user", user);

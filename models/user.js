@@ -8,7 +8,7 @@ const userSchema = new Schema({
   thumbnail: String,
   diet: [],
   intolerances: [],
-  recipies: [
+  recipes: [
     {
       title: { type: String, required: true },
       id: { type: Number, required: true },
