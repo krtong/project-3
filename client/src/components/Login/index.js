@@ -38,7 +38,7 @@ class Login extends React.Component{
                                 <div>
                                     <input id="name" type="text" placeholder="Marcia Polo"/>
                                     <input
-                                        value={this.name}
+                                        value={this.state.name}
                                         onChange={this.handleInputChange}
                                         type="text"
                                         className="form-control"
