@@ -2,14 +2,34 @@ import React from "react";
 import './style.css';
 
 
-class Login extends React.Component{ 
+export default class Login extends React.Component{ 
     constructor(){
         super()
         this.state = {
+            name: '',
+            email: '',
+            password: ''
+        };
 
-        }
-    } 
+    }
 
+    // handleInputChange = event => {
+    //     console.log("TEST", event.target)
+    //     const { name, value } = event.target;
+    //     this.setState({
+    //         [name]: value
+    //     });
+    // };
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        // console.log("login.js", {name, value});
+        this.setState({
+            [name]: value
+        })
+    };
+
+    
     render() {
         return(
 
@@ -36,26 +56,41 @@ class Login extends React.Component{
                         <div>
                             <fieldset>
                                 <div>
-                                    <input id="name" type="text" placeholder="Marcia Polo"/>
+                                    <label for="name">Name</label>
                                     <input
+                                        name="name"
                                         value={this.state.name}
                                         onChange={this.handleInputChange}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Type in a recipe name to begin"
+                                        placeholder="Example McSample"
                                     />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" placeholder="marcia@polo.com"/>
+                                    <input
+                                        name="email"
+                                        value={this.state.email}
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Example McSample"
+                                    />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
-                                    <label for="password">Password</label>
-                                    <input id="password" type="password" placeholder="••••••••"/>
+                                    <label for="password">"Password"</label>
+                                    <input
+                                        name="password"
+                                        value={this.state.password}
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="••••••••"
+                                    />
                                 </div>
                             </fieldset>
                         </div>
@@ -103,6 +138,3 @@ class Login extends React.Component{
         )
     }
 }
-
-export default Login; 
-

@@ -54,6 +54,7 @@ const Books = () => {
 
   const handleInputChange = event => {
     const { name, value } = event.target;
+    console.log("books.js", {name, value});
     setFormData({
       ...formData,
       [name]: value
