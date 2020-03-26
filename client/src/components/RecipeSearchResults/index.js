@@ -4,7 +4,10 @@ import "./style.css";
 function RecipeSearchResults({results}) {
   return (
     <div className="card-group">
-    {results.map(({id, title, readyInMinutes, servings, imageURL, ingredients, recipeUrl, urlName}) => (
+    {results.map((recipe, idx) => {
+      console.log(`RECIPE${idx}`,{recipe})
+      const {id, title, readyInMinutes, servings, imageURL, ingredients, recipeUrl, urlName} = recipe;
+        return(
       <div key={id} className="col-md-2 col-lg-5" style={{margin:'10px'}}>
         <div className="card border-0">
           <div className="card-title" style={{backgroundImage: `url("${imageURL}")`}}></div>
@@ -20,7 +23,8 @@ function RecipeSearchResults({results}) {
           {<p>Recipe <a href={recipeUrl}>{urlName}</a></p>}
         </div>
       </div>
-    ))}
+    )}
+  )}
   </div>
   );
 }

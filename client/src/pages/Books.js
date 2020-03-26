@@ -12,20 +12,21 @@ import { UserContext } from '../context/UserContext';
 const Books = () => {
   const [formData, setFormData] = useState({
     title: '',
-    id: "5e7ad9605383035a44651616",
+    id: "",
+    _id: "5e7ad9605383035a44651616",
   });
   const {users, setRecipes} = useContext(UserContext);
-  // console.log("users", users, "setRecipes", )
-  const userObject = users.filter(({_id}) => _id === this.state.id);
-  console.log(userObject)
+  console.log(users)
+
   const loadRecipes = () => {
     API.getRecipes()
-      .then(res => {
-        setRecipes(res.data)
-      })
-      .catch(err => console.log(err));
+    .then(res => {
+      const usersArray = res.data
+      setRecipes(usersArray)
+    })
+    .catch(err => console.log(err));
   };
-
+  
   useEffect(() => {
      if (users.length === 0) {
       loadRecipes();
@@ -35,7 +36,7 @@ const Books = () => {
   const deleteBook = id => {
     API.deleteBook(id)
       .then(res => {
-        const remainingBooks = users.filter(book => book._id !== id);
+        const remainingBooks = users.filter(user => user._id !== id);
         setRecipes(remainingBooks);
       })
       .catch(err => console.log(err));
@@ -43,7 +44,7 @@ const Books = () => {
 
   const incrementLikes = id => {
     console.log('id of book to increase likes', id, users);
-    const indexToUpdate = users.findIndex(book => book._id === id);
+    const indexToUpdate = users.findIndex(user => user._id === id);
     const newBooks = [...users];
     newBooks[indexToUpdate].likes = newBooks[indexToUpdate].likes ? newBooks[indexToUpdate].likes + 1 : 1;
     setRecipes(newBooks);
@@ -108,18 +109,18 @@ const Books = () => {
             {users.length ? (
               <List>
                 {users.map(user => {
-                  console.log("user", user)
-                  // render(
-                  // <ListItem key={book._id}>
-                  //   <LikeButton id={book._id} incrementLikes={incrementLikes} likes={book.likes | 0} />
-                  //   <Link to={"/users/" + book._id}>
-                  //     <strong>
-                  //       {book.title} by {book.author}
-                  //     </strong>
-                  //   </Link>
-                  //   <DeleteBtn onClick={() => deleteBook(book._id)} />
-                  // </ListItem>
-                // )
+                  console.log("user", user);
+                  return(
+                  <ListItem key={user._id}>
+                    <LikeButton id={user._id} incrementLikes={incrementLikes} likes={user.likes | 0} />
+                    <Link to={"/users/" + user._id}>
+                      <strong>
+                        {user.title} by {user.id}
+                      </strong>
+                    </Link>
+                    <DeleteBtn onClick={() => deleteBook(user._id)} />
+                  </ListItem>
+                )
               }
                 )}
               </List>
