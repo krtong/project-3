@@ -1,5 +1,6 @@
 import React from "react"; 
 import './style.css';
+import axios from "axios";
 
 
 export default class Login extends React.Component{ 
@@ -13,14 +14,6 @@ export default class Login extends React.Component{
 
     }
 
-    // handleInputChange = event => {
-    //     console.log("TEST", event.target)
-    //     const { name, value } = event.target;
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // };
-
     handleInputChange = event => {
         const { name, value } = event.target;
         // console.log("login.js", {name, value});
@@ -28,6 +21,31 @@ export default class Login extends React.Component{
             [name]: value
         })
     };
+
+    handleFormSubmit = event => {
+        event.preventDefault();
+        
+        const {name, email, password} = this.state;
+        console.log({name, email, password});
+
+        axios.post('/auth/register', {
+        // axios.post('http://localhost:3001/auth/register', {
+            name: name,
+            email: password,
+            password: password
+        }).then(response => {
+            console.log('we are now in register response', response);
+        });
+        
+    //    if (title && id) {
+    //       API.saveRecipe({
+    //         title,
+    //         id
+    //       })
+    //         .then(res => loadRecipes())
+    //         .catch(err => console.log(err));
+    //     }
+      };
 
     
     render() {
@@ -82,7 +100,7 @@ export default class Login extends React.Component{
                             </fieldset>
                             <fieldset>
                                 <div>
-                                    <label for="password">"Password"</label>
+                                    <label for="password">Password</label>
                                     <input
                                         name="password"
                                         value={this.state.password}
@@ -104,7 +122,12 @@ export default class Login extends React.Component{
                             </li>
                         </ul>
                         
-                        <input type="submit" value="Sign Up"/>
+                        <input 
+                            type="submit" 
+                            onClick={this.handleFormSubmit} 
+                            value="Sign Up"
+                        />
+                        
                     </form>
                     <form id="form-login">
                         <div>
