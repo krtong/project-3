@@ -10,7 +10,7 @@ const userSchema = new Schema({
   email: String,
   diet: [],
   intolerances: [],
-  recipies: [
+  recipes: [
     {
       title: { type: String, required: true },
       id: { type: Number, required: true },

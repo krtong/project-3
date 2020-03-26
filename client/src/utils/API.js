@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const SPOONACULAR_API = (url, params = {}) => {
+  console.log({url, params})
   return axios({
     method:"GET",
     url:"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com" + url,
@@ -43,7 +44,7 @@ export default {
     { includeNutrition: BOOLEAN, Include nutrition data to the recipe information. } */
       
 
-  getSearchRecipes : (query, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
+  getSearchRecipes : ({query}, optionalParameters)  => SPOONACULAR_API('/recipes/search', {query, ...optionalParameters}),
     /* optionalParameters: 
     { cuisine: STRING,  The cuisine(s) of the recipes. One or more (comma separated) of the following: african, chinese, japanese, korean, vietnamese, thai, indian, british, irish, french, italian, mexican, spanish, middle eastern, jewish, american, cajun, southern, greek, german, nordic, eastern european, caribbean, or latin american.
       diet: STRING, The diet to which the recipes must be compliant. Possible values are: pescetarian, lacto vegetarian, ovo vegetarian, vegan, and vegetarian.
@@ -63,11 +64,11 @@ export default {
       ranking: NUMBER, Whether to maximize used ingredients (1) or minimize missing ingredients (2) first.
       ignorePantry: BOOLEAN Whether to ignore pantry ingredients such as water, salt, flour etc..} */
   
-  getSimilarRecipies: id => SPOONACULAR_API(`/recipes/${id}/similar`), 
+  getSimilarRecipes: id => SPOONACULAR_API(`/recipes/${id}/similar`), 
       
   getExtractRecipeFromWebsite: url => SPOONACULAR_API('/recipes/extract', {url}),
 
-  getSearchGroceryProducts: (query, optionalParameters) => SPOONACULAR_API('/food/products/search', {query, ...optionalParameters}), 
+  getSearchGroceryProducts: ({query}, optionalParameters) => SPOONACULAR_API('/food/products/search', {query, ...optionalParameters}), 
     /* optional parameters:
     { offset: NUMBER, The number of results to skip, defaults to 0.
       number: NUMBER, The number of results to retrieve, defaults to 10.
@@ -80,7 +81,7 @@ export default {
       maxCarbs: NUMBER, The maximum number of grams of carbs the product can have.
       minCalories: NUMBER, The minimum number of calories the product can have. } */
 
-  getAutocompleteIngredientsSearch: (query, optionalParameters) => SPOONACULAR_API('/food/ingredients/autocomplete', {query, ...optionalParameters}), 
+  getAutocompleteIngredientsSearch: ({query}, optionalParameters) => SPOONACULAR_API('/food/ingredients/autocomplete', {query, ...optionalParameters}), 
     /* optionalParameters:
     { number: NUMBER, The number of results to return, between [1,100]
       metaInformation: BOOLEAN, Whether to return more meta information about the ingredients.
@@ -186,4 +187,45 @@ export default {
 
   getTalkToChatbot: (text, contextId = "") => SPOONACULAR_API('/food/converse', {text, contextId}), 
   //OPTIONAL: An arbitrary globally unique id for your conversation. The conversation can contain states so you should pass your context id if you want the bot to be able to remember the conversation.
+  // Gets all users
+  getUsers: function() {
+    return axios.get("/api/users");
+  },
+  // Gets the user with the given id
+  getUser: function(id) {
+    return axios.get("/api/users/" + id);
+  },
+  // Deletes the user with the given id
+  deleteUser: function(id) {
+    return axios.delete("/api/users/" + id);
+  },
+  // Saves a user to the database
+  saveUser: function(userData) {
+    return axios.post("/api/users", userData);
+  },
+  getRandomDog: function() {
+    return axios.get("https://dog.ceo/api/breeds/image/random");
+  },
+  getDogsOfBreed: function(breed) {
+    return axios.get("https://dog.ceo/api/breed/" + breed + "/images");
+  },
+  getBaseBreedsList: function() {
+    return axios.get("https://dog.ceo/api/breeds/list");
+  },
+  getRecipes: function() {
+    return axios.get("/api/users");
+  },
+  // Gets the book with the given id
+  getBook: function(id) {
+    return axios.get("/api/books/" + id);
+  },
+  // Deletes the book with the given id
+  deleteBook: function(id) {
+    return axios.delete("/api/books/" + id);
+  },
+  // Saves a book to the database
+  saveRecipe: function(recipeData) {
+    console.log("saveRecipe: recipeData", recipeData)
+    return axios.post("/api/users", recipeData);
+  }
 };
