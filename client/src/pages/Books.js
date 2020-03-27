@@ -167,7 +167,7 @@ export default class Books extends React.Component {
                   return(
                 <tr>
                   <th scope="row"><a onClick={() => this.deleteRecipe(recipe)}>x</a></th>
-                  <td>{title}</td>
+                  <td><a href={recipeUrl} target="_blank">{title}</a></td>
                 <td>({ingredients && ingredients.length}) {ingredients && ingredients.map(({name}) => name).join(', ')}</td>
                   <td>{servings}</td>
                 </tr>)})}
