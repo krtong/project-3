@@ -1,17 +1,33 @@
 const router = require('express').Router();
 const passport = require('passport');
+// const authController = require("../../controllers/authController")
 
 // auth login
-router.get('/login', (req, res) => {
-    res.render('login', { user: req.user });
-});
+// router
+//     .route("/login")
+//     .get('/login', (req, res) => {
+//     res.render('login', { user: req.user });
+// });
 
 // auth logout
-router.get('/logout', (req, res) => {
-    // handle with passport
-    req.logout();
-    res.redirect('/')
-});
+// router.get('/logout', (req, res) => {
+//     // handle with passport
+//     req.logout();
+//     res.redirect('/')
+// });
+
+
+
+router.post('/register', (req, res) => {
+  // console.log('user signup!', req);
+  console.log('req.body', req.body);
+  // console.log("REQ", req)
+  // console.log("RES", res)
+  // const { name, email, password } = req.body
+  // console.log(name, email, password);
+})
+
+
 
 //Google oAuth
   router.get('/google', passport.authenticate('google', {

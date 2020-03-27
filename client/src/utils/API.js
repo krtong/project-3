@@ -213,6 +213,7 @@ export default {
     return axios.get("https://dog.ceo/api/breeds/list");
   },
   getRecipes: function() {
+    console.log("GET RECIPES")
     return axios.get("/api/users");
   },
   // Gets the book with the given id
