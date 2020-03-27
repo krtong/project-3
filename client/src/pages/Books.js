@@ -57,7 +57,11 @@ export default class Books extends React.Component {
           if (groceryList.length === 0) groceryList = newIngredients;
 
         //sort groceryList by aisle
-        groceryList.sort((a, b) => a.aisle > b.aisle ? 1 : -1); 
+        groceryList.sort((a, b) => {
+          if (a.aisle === b.aisle) {
+            return  a.name > b.name ? 1 : 0;
+          } else return a.aisle > b.aisle ? 1 : -1;
+        }); 
 
         this.setState({groceryList, recipes: [recipe, ...this.state.recipes]})
     }
@@ -162,7 +166,7 @@ export default class Books extends React.Component {
                   const {diets, ingredients, id, title, readyInMinutes, servings, imageURL, recipeUrl} = recipe;
                   return(
                 <tr>
-                  <th scope="row"><a onClick={() => this.deleteRecipe(recipe)}>[X]</a></th>
+                  <th scope="row"><a onClick={() => this.deleteRecipe(recipe)}>x</a></th>
                   <td>{title}</td>
                 <td>({ingredients && ingredients.length}) {ingredients && ingredients.map(({name}) => name).join(', ')}</td>
                   <td>{servings}</td>
