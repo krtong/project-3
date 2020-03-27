@@ -7,12 +7,16 @@ import Alert from "../components/Alert";
 import API from "../utils/API";
 
 class AdvancedSearch extends Component {
-  state = {
-    query: "",
-    submitClicked: false,
-    results: [],
-    error: ""
-  };
+  constructor({addRecipe}){
+    super();
+    this.state = {
+      query: "",
+      submitClicked: false,
+      results: [],
+      error: ""
+    };
+    this.addRecipe = addRecipe;
+  }
 
   // When the component mounts, get a list of all available base breeds and update this.state.breeds
   componentDidMount() {
@@ -213,7 +217,7 @@ class AdvancedSearch extends Component {
           <Alert style={alertCSS} type="danger"> {error} </Alert>
           <AdvancedSearchFilter />
           <RecipeSearchForm handleFormSubmit={handleFormSubmit} handleInputChange={searchQuery} />
-          <RecipeSearchResults results={results} submitClicked={submitClicked} />
+          <RecipeSearchResults results={results} submitClicked={submitClicked} addRecipe={this.addRecipe} />
         </Container>
       </div>
     );

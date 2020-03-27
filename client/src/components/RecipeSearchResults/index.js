@@ -1,26 +1,33 @@
 import React from "react";
 import "./style.css";
 
-function RecipeSearchResults({results}) {
-  return (
+
+function RecipeSearchResults({results, addRecipe}) {
+  // console.log({results})
+  return !results[0] ? "" : !results[0].ingredients ? "Loading..." : (
     <div className="card-group">
     {results.map((recipe, idx) => {
-      console.log(`RECIPE${idx}`,{recipe})
+      // console.log(`RECIPE${idx}`,{recipe})
       const {id, title, readyInMinutes, servings, imageURL, ingredients, recipeUrl, urlName} = recipe;
         return(
-      <div key={id} className="col-md-2 col-lg-5" style={{margin:'10px'}}>
+      <div key={id} className="col" style={{margin:'10px'}}>
         <div className="card border-0">
-          <div className="card-title" style={{backgroundImage: `url("${imageURL}")`}}></div>
+          <div className="card-title" style={{backgroundImage: `url("${imageURL}")`}}>
+            <div style={{height: "38px", width: "38px",background: "#eee"}}>            
+              <a style={{"font-size": "36px", "font-weight" : "700"}}
+                 onClick={() => addRecipe(recipe)}>+</a>
+            </div>
+          </div>
           <div className="card-body">
             <h4>{title}</h4>
             <p className="text-muted card-text">Servings: {servings} | Time: {readyInMinutes}</p>
-            {ingredients &&
+            {/* {ingredients &&
             <ol>Ingredients: {ingredients.map(ingredient =>
               <li>name: {ingredient.name} | aisle: {ingredient.aisle} | amount: {ingredient.amount} {ingredient.unit}</li>
             )
-            }</ol>}
+            }</ol>} */}
           </div>
-          {<p>Recipe <a href={recipeUrl}>{urlName}</a></p>}
+          {recipeUrl && <p>Recipe <a href={recipeUrl}>{urlName}</a></p>}
         </div>
       </div>
     )}

@@ -1,0 +1,193 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+*:focus {
+  outline: none !important;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  background: white;
+
+  margin: 0;
+  font-family: "brandon-grotesque", "Brandon Grotesque", "Source Sans Pro",
+    "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue",
+    Arial, sans-serif;
+  background: url("../../assets/LandingPageBackground.jpg")
+    no-repeat center center/cover;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  background: white;
+  height: 100%;
+  width: 100%;
+}
+main aside {
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  align-content: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: calc(100% / 3);
+  padding: 110px;
+  background-image: url("../../assets/loginpagelist.jpg");
+  background-repeat: no-repeat;
+  background-size: 400px 600px;
+}
+main aside div:empty {
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/loginpagelist.jpg");
+  background-repeat: no-repeat;
+  background-size: 400px 600px;
+
+  background-blend-mode: screen;
+}
+main aside svg {
+  position: relative;
+  margin-top: -24px;
+  width: 150px;
+  height: 150px;
+}
+main aside div:not(:empty) {
+  position: relative;
+  width: 100%;
+  margin-top: -24px;
+}
+main aside p {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  color: white;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(133, 117, 103, 0.5);
+}
+main aside p strong {
+  font-weight: 700;
+}
+main aside p:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+main aside p.active {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+}
+main aside p:not(.active) {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: translateY(100px);
+  transform: translateY(100px);
+}
+main section {
+  position: relative;
+  height: calc(100% / 3 * 2);
+}
+main section h1 {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding: 12px;
+  color: #dfb72c;
+  font-size: 28px;
+  line-height: 1;
+  text-align: center;
+  text-transform: lowercase;
+}
+main section h1 a {
+  display: block;
+  margin: 0 6px;
+  cursor: pointer;
+  -webkit-transform: none;
+  transform: none;
+}
+main section h1 a:hover,
+main section h1 a:focus {
+  color: #976a36;
+}
+main section h1 a:active {
+  color: #857567;
+}
+main section h1 a.active {
+  font-weight: 500;
+}
+main section h1 a:not(.active) {
+  font-weight: 300;
+}
+main section form {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-flow: row wrap;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 40px);
+}
+main section form > div,
+main section form > ul {
+  width: 100%;
+  padding: 6px;
+}
+main section form fieldset {
+  padding: 6px;
+}
+main section form fieldset div {
+  display: -webkit-box;
+  display: flex;
+  border-radius: 2px;
+  overflow: hidden;
+}
+main section form fieldset div label {
+  display: block;
+  margin: 0;
+  padding: 6px 9px;
+  background: #dfb72c;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 25px;
+}
+main section form fieldset div input {
+  display: block;
+  background: white;
+  border: 1px solid #dfb72c;
+  border-left: 0;
+  border-radius: 0 2px 2px 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 6px 9px;
+  width: 100%;
+  color: #857567;
+  font-family: "brandon-grotesque", "Brandon Grotesque", "Source Sans Pro",
+    "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue",
+    Arial, sans-serif;
+  font-size: 16px;
+}

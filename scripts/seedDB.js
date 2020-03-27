@@ -13,7 +13,7 @@ const userSeed = [{
   thumbnail: "String",
   diet: [],
   intolerances: [],
-  recipies: [
+  recipes: [
     {
       id: 86915,
       title: "Maple-Soy Glazed Salmon (America's Test Kitchen)",
@@ -118,7 +118,7 @@ const userSeed = [{
   thumbnail: 'https://lh3.googleusercontent.com/-zP9cGN_7iPI/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nAjaE0f4vWhGR6xpjmndnylTR2L2w/photo.jpg',
   diet: [],
   intolerances: [],
-  recipies: [
+  recipes: [
     {
       id: 86915,
       title: "Maple-Soy Glazed Salmon (America's Test Kitchen)",
