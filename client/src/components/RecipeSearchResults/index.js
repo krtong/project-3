@@ -13,10 +13,12 @@ function RecipeSearchResults({results, addRecipe}) {
       <div key={id} className="col" style={{margin:'10px'}}>
         <div className="card border-0">
           <div className="card-title" style={{backgroundImage: `url("${imageURL}")`}}>
-            <div style={{height: "38px", width: "38px",background: "#eee"}}>            
-              <a style={{"font-size": "36px", "font-weight" : "700"}}
-                 onClick={() => addRecipe(recipe)}>+</a>
+          <a style={{"font-size": "36px", "font-weight" : "700"}}
+                 onClick={() => addRecipe(recipe)}>
+            <div style={{height: "38px", width: "38px",background: "#6d3636"}}>            
+              +
             </div>
+              </a>
           </div>
           <div className="card-body">
             <h4>{title}</h4>
