@@ -45,6 +45,7 @@ export default class Books extends React.Component {
         const newIngredients =  recipe["ingredients"];
         console.log({newIngredients})
 
+        //combine ingredients amounts if they exist. push them if they don't.
         if (newIngredients) {
           newIngredients.forEach(newItem => {
             for (let i = 0; i < groceryList.length; i++){
@@ -55,10 +56,13 @@ export default class Books extends React.Component {
           })
         }
 
+        //sort groceryList by aisle
+        groceryList.sort((a, b) => a.aisle > b.aisle ? 1 : -1); 
+
         this.setState({groceryList, recipes: [recipe, ...this.state.recipes]})
     }
 
-  // useEffect(() => {
+  // useEffect(() => {s
   //    if (recipes.length === 0) {
   //    loadRecipes();
   //    }
