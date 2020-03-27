@@ -17,7 +17,7 @@ export default class Books extends React.Component {
     this.state = {
       title: '',
       id: "",
-      userID: 1,
+      userID: 2,
     }
   //  this.loadRecipes()
   }
@@ -26,7 +26,7 @@ export default class Books extends React.Component {
     try{
       const { data } = await API.getUser(this.state.userID);
       console.log('data', data)
-      const  { groceryList, recipes } = data.filter(user => user.userID === this.state.userID)[0];
+      const  { groceryList, recipes } = data;
 
       let ingredientsArray = []
       recipes.forEach(({ingredients}) => ingredients.forEach(ingredient => ingredientsArray.push(ingredient)));
