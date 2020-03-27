@@ -1,6 +1,7 @@
 import React from "react"; 
-import './style.css';
-
+// sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything. 
+// import './style-old.css';
+import './style.css'
 
 class Login extends React.Component{ 
     constructor(){
