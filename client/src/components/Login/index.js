@@ -36,20 +36,20 @@ class Login extends React.Component{
                         <div>
                             <fieldset>
                                 <div>
-                                    <input id="name" type="text" placeholder="Marcia Polo"/>
+                                    <label for="Name">Name</label>
                                     <input
                                         value={this.state.name}
                                         onChange={this.handleInputChange}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Type in a recipe name to begin"
+                                        placeholder="Example McSample"
                                     />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" placeholder="marcia@polo.com"/>
+                                    <input id="email" type="email" placeholder="example@sample.com"/>
                                 </div>
                             </fieldset>
                             <fieldset>

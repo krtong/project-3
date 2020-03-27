@@ -6,25 +6,28 @@ const mongoose = require("mongoose");
 
 // ********************************************************
 // START Cody additions
-const authRoutes = require('./routes/auth-routes')
-const passport = require('passport');
-const passportSetup = require('./config/passport-setup')
-const GoogleStrategy = require('passport-google-oauth20');
-const cookieSession = require('cookie-session');
+// const authRoutes = require('./routes/auth-routes')
+const routes = require("./routes");
+const passport = require("passport");
+const passportSetup = require("./config/passport-setup");
+const GoogleStrategy = require("passport-google-oauth20");
+const cookieSession = require("cookie-session");
 const router = require("express").Router();
 
 const app = express();
 
 // cookieSession config
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
-  keys: ['randomstringhere']
-}));
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
+    keys: ["randomstringhere"]
+  })
+);
 
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session()); // Used to persist login sessions
 
-app.use('/auth', authRoutes);
+app.use(routes);
 
 // // Strategy config
 // passport.use(new GoogleStrategy({
@@ -83,13 +86,12 @@ app.use('/auth', authRoutes);
 
 // // Logout route
 // app.get('/logout', (req, res) => {
-//   req.logout(); 
+//   req.logout();
 //   res.redirect('/');
 // });
 
 // END Cody additions
 // ********************************************************
-
 
 const PORT = process.env.PORT || 3001;
 
@@ -102,7 +104,6 @@ if (process.env.NODE_ENV === "production") {
 }
 // Add routes, both API and view
 // app.use(routes);
-
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/cookingdb");
