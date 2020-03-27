@@ -19,23 +19,35 @@ export default class Books extends React.Component {
       id: "",
       userID: 1,
     }
-   this.loadRecipes()
+  //  this.loadRecipes()
   }
   
    loadRecipes = async() => {
      try{
        console.log("TEST")
       const res = await API.getUsers()
-      const usersArray = res;
+      const usersArray = res.data[0].recipies;
+      const title = usersArray[0].title;
+      
+      this.setState({title: usersArray[0].title, id: usersArray[0].id});
+      // this.setState({recipes: userArray})
+     
       console.log("TESTING")
-      console.log({usersArray})
+        console.log({usersArray})
+      console.log(res.data[0])
+      // const chrisData = usersArray[0];
+      // const recipes = chrisData.recipies;
      }
      catch(err){
        console.log(err)
      }
-      // this.setState(usersArray)
-
-  };
+     
+     // this.setState(usersArray)
+     
+    };
+    componentDidMount(){
+      this.loadRecipes();
+    }
 
   // useEffect(() => {
   //    if (recipes.length === 0) {
@@ -122,7 +134,9 @@ export default class Books extends React.Component {
             <Jumbotron>
               <h1>Books On My List</h1>
             </Jumbotron>
-            {/* {recipes.length ? (
+            {this.state.title}
+           {/* <div>{this.state.recipes.username}</div> */}
+             {/* {this.state.recipes.length ? (
               <List>
               {users.map(user => {
                 console.log("user", user);
@@ -137,12 +151,13 @@ export default class Books extends React.Component {
                   <DeleteBtn onClick={() => deleteBook(user._id)} />
                   </ListItem>
                   )
-                }
+                } 
                 )}
                 </List>
             ) : (
               <h3>No Results to Display</h3>
-            )} */}
+            )} }
+                */}
 
           </Col>
         </Row>

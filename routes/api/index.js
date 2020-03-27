@@ -4,7 +4,7 @@ const userRoutes = require("./users");
 const authRoutes = require("./auth");
 
 // User routes
-router.use("/api/users", userRoutes);
+router.use("/users", userRoutes);
 router.use("/auth", authRoutes);
 
 /* const authRoutes = require("./auth")
