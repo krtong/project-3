@@ -1,53 +1,15 @@
 import React from "react"; 
 import './style.css';
-import axios from "axios";
 
 
-export default class Login extends React.Component{ 
+class Login extends React.Component{ 
     constructor(){
         super()
         this.state = {
-            name: '',
-            email: '',
-            password: ''
-        };
 
-    }
+        }
+    } 
 
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        // console.log("login.js", {name, value});
-        this.setState({
-            [name]: value
-        })
-    };
-
-    handleFormSubmit = event => {
-        event.preventDefault();
-        
-        const {name, email, password} = this.state;
-        console.log({name, email, password});
-
-        axios.post('/auth/register', {
-        // axios.post('http://localhost:3001/auth/register', {
-            name: name,
-            email: password,
-            password: password
-        }).then(response => {
-            console.log('we are now in register response', response);
-        });
-        
-    //    if (title && id) {
-    //       API.saveRecipe({
-    //         title,
-    //         id
-    //       })
-    //         .then(res => loadRecipes())
-    //         .catch(err => console.log(err));
-    //     }
-      };
-
-    
     render() {
         return(
 
@@ -74,41 +36,26 @@ export default class Login extends React.Component{
                         <div>
                             <fieldset>
                                 <div>
-                                    <label for="name">Name</label>
+                                    <input id="name" type="text" placeholder="Marcia Polo"/>
                                     <input
-                                        name="name"
                                         value={this.state.name}
                                         onChange={this.handleInputChange}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Example McSample"
+                                        placeholder="Type in a recipe name to begin"
                                     />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="email">Email</label>
-                                    <input
-                                        name="email"
-                                        value={this.state.email}
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Example McSample"
-                                    />
+                                    <input id="email" type="email" placeholder="marcia@polo.com"/>
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="password">Password</label>
-                                    <input
-                                        name="password"
-                                        value={this.state.password}
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="••••••••"
-                                    />
+                                    <input id="password" type="password" placeholder="••••••••"/>
                                 </div>
                             </fieldset>
                         </div>
@@ -122,12 +69,7 @@ export default class Login extends React.Component{
                             </li>
                         </ul>
                         
-                        <input 
-                            type="submit" 
-                            onClick={this.handleFormSubmit} 
-                            value="Sign Up"
-                        />
-                        
+                        <input type="submit" value="Sign Up"/>
                     </form>
                     <form id="form-login">
                         <div>
@@ -161,3 +103,6 @@ export default class Login extends React.Component{
         )
     }
 }
+
+export default Login; 
+
