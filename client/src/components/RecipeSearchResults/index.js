@@ -4,7 +4,7 @@ import "./style.css";
 
 function RecipeSearchResults({results, addRecipe}) {
   // console.log({results})
-  return !results[0] ? "" : !results[0].ingredients ? "Loading..." : (
+  return !results[0] ? "" : !results[0].ingredients ? "Loading... 🌭🍣🥧🍛🥙" : (
     <div className="card-group">
     {results.map((recipe, idx) => {
       // console.log(`RECIPE${idx}`,{recipe})
