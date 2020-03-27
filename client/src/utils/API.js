@@ -228,5 +228,9 @@ export default {
   saveRecipe: function(recipeData) {
     console.log("saveRecipe: recipeData", recipeData)
     return axios.post("/api/users", recipeData);
+  },
+  googleLogin: function(){
+    console.log("test");
+    return axios.get("/api/google");
   }
 };

@@ -25,7 +25,7 @@ export default class Books extends React.Component {
    loadRecipes = async() => {
      try{
        console.log("TEST")
-      const res = await API.getRecipes()
+      const res = await API.getUsers()
       const usersArray = res;
       console.log("TESTING")
       console.log({usersArray})

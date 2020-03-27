@@ -1,6 +1,7 @@
 import React from "react"; 
 import './style.css';
 import axios from "axios";
+import API from "../../utils/API";
 
 
 export default class Login extends React.Component{ 
@@ -115,10 +116,11 @@ export default class Login extends React.Component{
                         <ul>
                             <li>
                                 {/* may need to go back and fix the route - for deployment? */}
-                                <a class="fb" href="http://localhost:3001/auth/google">Connect with Google</a>
+                                {/* <a class="fb" href="./auth/api/google">Connect with Google</a> */}
+                                <a class="fb" onClick={API.googleLogin} href="#">Connect with Google</a>
                             </li>
                             <li>
-                                <a class="tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                <a class="tw" href="/auth/api/facebook">Connect with Facebook</a>
                             </li>
                         </ul>
                         
