@@ -41,12 +41,11 @@ export default class Books extends React.Component {
     }
     addRecipe =  (recipe) => {
       
-        const groceryList = this.state.groceryList
+        let groceryList = this.state.groceryList
         const newIngredients =  recipe["ingredients"];
         console.log({newIngredients})
 
         //combine ingredients amounts if they exist. push them if they don't.
-        if (newIngredients) {
           newIngredients.forEach(newItem => {
             for (let i = 0; i < groceryList.length; i++){
               let oldItem = groceryList[i];
@@ -54,12 +53,36 @@ export default class Books extends React.Component {
               else if (newItem.id === oldItem.id) return groceryList[i].amount += newItem.amount;
             }
           })
-        }
+
+          if (groceryList.length === 0) groceryList = newIngredients;
 
         //sort groceryList by aisle
         groceryList.sort((a, b) => a.aisle > b.aisle ? 1 : -1); 
 
         this.setState({groceryList, recipes: [recipe, ...this.state.recipes]})
+    }
+
+    deleteRecipe = (recipe) => {
+
+      let groceryList = this.state.groceryList;
+      let ingredients = recipe["ingredients"];
+      
+      //remove ingredients from groceryList
+      groceryList.forEach((item, idx) => {
+        for (let i = 0; i < ingredients.length; i++){
+          const newItem = ingredients[i]
+          if (item.id === newItem.id){
+            groceryList[idx].amount -= newItem.amount;
+          }
+        }
+      })
+      groceryList = groceryList.filter(({amount}) => amount > 0 )
+      
+      let recipes = this.state.recipes;
+
+      //remove recipe from recipeList
+      recipes = recipes.filter(({id}) => id !== recipe.id)
+      this.setState({groceryList, recipes})
     }
 
   // useEffect(() => {s
@@ -120,7 +143,7 @@ export default class Books extends React.Component {
         <Row>
           <Col size="md-6">
 
-            <AdvancedRecipeSearch addRecipe={this.addRecipe}/>
+            <AdvancedRecipeSearch addRecipe={this.addRecipe} deleteRecipe={this.deleteRecipe}/>
 
           </Col>
           <Col size="md-6 sm-12">
@@ -135,13 +158,15 @@ export default class Books extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.recipes && this.state.recipes.map(({diets, ingredients, id, title, readyInMinutes, servings, imageURL, recipeUrl}) => (
+                {this.state.recipes && this.state.recipes.map((recipe, idx) => {
+                  const {diets, ingredients, id, title, readyInMinutes, servings, imageURL, recipeUrl} = recipe;
+                  return(
                 <tr>
-                  <th scope="row"><a onClick={() => console.log(`delete recipe-${id} recipe list`)}>[X]</a></th>
+                  <th scope="row"><a onClick={() => this.deleteRecipe(recipe)}>[X]</a></th>
                   <td>{title}</td>
                 <td>({ingredients && ingredients.length}) {ingredients && ingredients.map(({name}) => name).join(', ')}</td>
                   <td>{servings}</td>
-                </tr>))}
+                </tr>)})}
               </tbody>
             </table>
 
