@@ -18,12 +18,12 @@
 //       .then(dbModel => res.json(dbModel.groceryList))
 //       .catch(err => res.status(422).json(err));
 //   },
-//   findRecepies: function(req, res) {
+//   findRecipes: function(req, res) {
 //     db.User.findById(req.params.id)
 //       .then(dbModel => res.json(dbModel))
 //       .catch(err => res.status(422).json(err));
 //   },
-//   findRecepieByID: function(req, res) {
+//   findRecipeByID: function(req, res) {
 //     db.User.findById(req.params.id)
 //       .then(dbModel => res.json(dbModel))
 //       .catch(err => res.status(422).json(err));
