@@ -3,8 +3,9 @@ const router = require("express").Router();
 const passport = require("passport");
 
 // auth login
-router.get("/login", (req, res) => {
-  res.render("login", { user: req.user });
+router.post("/login", (req, res) => {
+  console.log("holy shit!!!!!!!!!!!")
+  // res.render("login", { user: req.user });
 });
 
 // auth logout

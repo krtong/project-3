@@ -2,6 +2,7 @@ import React from "react";
 // sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
 // import './style-old.css';
 import './style.css'
+import axios from "axios";
 
 class Login extends React.Component{ 
     constructor(){
@@ -32,15 +33,39 @@ class Login extends React.Component{
             alert(`Choose a more secure password ${this.state.firstName} ${this.state.lastName}`);
         } else {
             alert(`Hello ${this.state.name} - your email: ${this.state.email}, your password: ${this.state.password}`);
-            axios
+            axios.post('/api/auth/login', {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password
+            })
+                .then(response => {
+                    console.log(response)
+                    if (response.data) {
+                        console.log('Successful signup!');
+                        this.setState({
+                            redirectTo: '/'
+                        })
+                    } else {
+                        console.log('Signup error')
+                    }
+                }).catch(err => {
+                    console.log('Sign up server error: ')
+                    console.log(err)
+                })
         }
-    
-        // this.setState({
-        //   firstName: "",
-        //   lastName: "",
-        //   password: ""
-        // });
-    };
+    }
+
+    // OTHERhandleFormSubmit = event => {
+    //     event.preventDefault();
+    //     API.getSearchRecipes(this.state.search)
+    //       .then(res => {
+    //         if (res.data.status === "error") {
+    //           throw new Error(res.data.message);
+    //         }
+    //         this.setState({ results: res.data.results, error: "", submitClicked: true});
+    //       })
+    //       .catch(err => this.setState({ error: err.message }));
+    //   };
 
 
     render() {
