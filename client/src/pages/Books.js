@@ -12,13 +12,11 @@ import { UserContext } from "../context/UserContext";
 import AdvancedRecipeSearch from "../pages/AdvancedSearch";
 
 export const Books = () => {
-
-  const {user} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [groceryList, setGroceryList] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-
+  //const [ingredients, setIngredients] = useState([]);
 
   // constructor() {
   //   super();
@@ -43,38 +41,40 @@ export const Books = () => {
 
       setGroceryList(groceryList);
       setRecipes(recipes);
-      setIngredients(ingredientsArray);
-
+      //setIngredients(ingredientsArray);
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
+    setUser("chrisMcKee");
     loadRecipes();
-  }, []);
+  }, [user]);
 
-  
   const addRecipe = recipe => {
     console.log("recipe", recipe);
     const newIngredients = recipe["ingredients"];
     console.log({ newIngredients });
+    let newGroceryList = [...groceryList];
 
     //combine ingredients amounts if they exist. push them if they don't.
     newIngredients.forEach(newItem => {
-      for (let i = 0; i < groceryList.length; i++) {
-        let oldItem = groceryList[i];
-        if (i + 1 === groceryList.length && newItem.id !== oldItem.id)
-          return groceryList.push(newItem);
+      for (let i = 0; i < newGroceryList.length; i++) {
+        let oldItem = newGroceryList[i];
+        if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id)
+          return newGroceryList.push(newItem);
         else if (newItem.id === oldItem.id)
-          return (groceryList[i].amount += newItem.amount);
+          return (newGroceryList[i].amount += newItem.amount);
       }
     });
 
-    if (groceryList.length === 0) groceryList = newIngredients;
+    if (newGroceryList.length === 0) {
+      newIngredients.forEach(ingredient => newGroceryList.push(ingredient));
+    }
 
-    //sort groceryList by aisle
-    groceryList.sort((a, b) => {
+    //sort newGroceryList by aisle
+    newGroceryList.sort((a, b) => {
       if (a.aisle === b.aisle) {
         return a.name > b.name ? 1 : 0;
       } else return a.aisle > b.aisle ? 1 : -1;
@@ -91,11 +91,11 @@ export const Books = () => {
     // }
     //update();
     API.updateUser(user, {
-      groceryList,
-      recipes: [recipe, ...recipes]
+      groceryList: newGroceryList,
+      recipes: [...recipes, recipe]
     });
-    setGroceryList(groceryList);
-    setRecipes([...recipes, recipe])
+    setGroceryList(newGroceryList);
+    setRecipes([...recipes, recipe]);
   };
 
   const deleteRecipe = recipe => {
@@ -170,93 +170,90 @@ export const Books = () => {
   //   }
   // };
 
-    return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <AdvancedRecipeSearch
-              addRecipe={addRecipe}
-              deleteRecipe={deleteRecipe}
-            />
-          </Col>
-          <Col size="md-6 sm-12">
-            <table class="table table-sm table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">x</th>
-                  <th scope="col">recipe</th>
-                  <th scope="col">ingredients</th>
-                  <th scope="col">servings</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recipes &&
-                  recipes.map((recipe, idx) => {
-                    const {
-                      diets,
-                      ingredients,
-                      id,
-                      title,
-                      readyInMinutes,
-                      servings,
-                      imageURL,
-                      recipeUrl
-                    } = recipe;
-                    return (
-                      <tr>
-                        <th scope="row">
-                          <a onClick={() => deleteRecipe(recipe)}>x</a>
-                        </th>
-                        <td>
-                          <a href={recipeUrl} target="_blank">
-                            {title}
-                          </a>
-                        </td>
-                        <td>
-                          ({ingredients && ingredients.length}){" "}
-                          {ingredients &&
-                            ingredients.map(({ name }) => name).join(", ")}
-                        </td>
-                        <td>{servings}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+  return (
+    <Container fluid>
+      <Row>
+        <Col size="md-6">
+          <AdvancedRecipeSearch
+            addRecipe={addRecipe}
+            deleteRecipe={deleteRecipe}
+          />
+        </Col>
+        <Col size="md-6 sm-12">
+          <table class="table table-sm table-dark">
+            <thead>
+              <tr>
+                <th scope="col">x</th>
+                <th scope="col">recipe</th>
+                <th scope="col">ingredients</th>
+                <th scope="col">servings</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recipes &&
+                recipes.map((recipe, idx) => {
+                  const {
+                    diets,
+                    ingredients,
+                    id,
+                    title,
+                    readyInMinutes,
+                    servings,
+                    imageURL,
+                    recipeUrl
+                  } = recipe;
+                  return (
+                    <tr>
+                      <th scope="row">
+                        <a onClick={() => deleteRecipe(recipe)}>x</a>
+                      </th>
+                      <td>
+                        <a href={recipeUrl} target="_blank">
+                          {title}
+                        </a>
+                      </td>
+                      <td>
+                        ({ingredients && ingredients.length}){" "}
+                        {ingredients &&
+                          ingredients.map(({ name }) => name).join(", ")}
+                      </td>
+                      <td>{servings}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
 
-            <table class="table table-sm table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">🍑</th>
-                  <th scope="col">name</th>
-                  <th scope="col">aisle</th>
-                  <th scope="col">amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groceryList &&
-                  groceryList.map(
-                    ({ name, amount, aisle, unitLong, image }) => (
-                      <tr>
-                        <th scope="row">
-                          <img
-                            src={image}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                        </th>
-                        <td colspan="1">{name}</td>
-                        <td>{aisle}</td>
-                        <td>
-                          {amount} {unitLong}
-                        </td>
-                      </tr>
-                    )
-                  )}
-              </tbody>
-            </table>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-
+          <table class="table table-sm table-dark">
+            <thead>
+              <tr>
+                <th scope="col">🍑</th>
+                <th scope="col">name</th>
+                <th scope="col">aisle</th>
+                <th scope="col">amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groceryList &&
+                groceryList.map(({ name, amount, aisle, unitLong, image }) => (
+                  <tr>
+                    <th scope="row">
+                      <img
+                        src={image}
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                    </th>
+                    <td colspan="1">{name}</td>
+                    <td>{aisle}</td>
+                    <td>
+                      {amount} {unitLong}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
