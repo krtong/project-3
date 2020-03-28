@@ -198,6 +198,9 @@ export default {
   updateUser: function (id, data) {
     return axios.put("/api/users/" + id, data);
   },
+  createUser: function (userData) {
+    return axios.put("/api/users", userData);
+  },
   // Deletes the user with the given id
   deleteUser: function(id) {
     return axios.delete("/api/users/" + id);
@@ -205,23 +208,6 @@ export default {
   // Saves a user to the database
   saveUser: function(userData) {
     return axios.post("/api/users", userData);
-  },
-  getRandomDog: function() {
-    return axios.get("https://dog.ceo/api/breeds/image/random");
-  },
-  getDogsOfBreed: function(breed) {
-    return axios.get("https://dog.ceo/api/breed/" + breed + "/images");
-  },
-  getBaseBreedsList: function() {
-    return axios.get("https://dog.ceo/api/breeds/list");
-  },
-  getRecipes: function() {
-    console.log("GET RECIPES")
-    return axios.get("/api/users");
-  },
-  // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
   },
   // Deletes the book with the given id
   deleteBook: function(id) {
