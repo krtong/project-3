@@ -11,19 +11,28 @@ import { UserContext } from "../context/UserContext";
 //import { RecipeContext } from "../context/RecipeContext";
 import AdvancedRecipeSearch from "../pages/AdvancedSearch";
 
-export default class Books extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      title: "",
-      id: "",
-      username: "chrisMcKee"
-    };
-  }
+export const Books = () => {
 
-  loadRecipes = async () => {
+  const {user} = useContext(UserContext);
+
+  const [groceryList, setGroceryList] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+
+
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     title: "",
+  //     id: "",
+  //     username: "chrisMcKee"
+  //   };
+  // }
+
+  const loadRecipes = async () => {
+    console.log("USER IS HERE: ", user);
     try {
-      const { data } = await API.getUser(this.state.username);
+      const { data } = await API.getUser(user);
       //console.log('data', data)
       const { groceryList, recipes } = data;
 
@@ -32,17 +41,22 @@ export default class Books extends React.Component {
         ingredients.forEach(ingredient => ingredientsArray.push(ingredient))
       );
 
-      this.setState({ groceryList, recipes, ingredients: ingredientsArray });
+      setGroceryList(groceryList);
+      setRecipes(recipes);
+      setIngredients(ingredientsArray);
+
     } catch (err) {
       console.log(err);
     }
   };
-  componentDidMount() {
-    this.loadRecipes();
-  }
-  addRecipe = recipe => {
+
+  useEffect( () => {
+    loadRecipes();
+  }, []);
+
+  
+  const addRecipe = recipe => {
     console.log("recipe", recipe);
-    let groceryList = this.state.groceryList;
     const newIngredients = recipe["ingredients"];
     console.log({ newIngredients });
 
@@ -76,15 +90,15 @@ export default class Books extends React.Component {
     //   }
     // }
     //update();
-    API.updateUser(this.state.username, {
+    API.updateUser(user, {
       groceryList,
-      recipes: [recipe, ...this.state.recipes]
+      recipes: [recipe, ...recipes]
     });
-    this.setState({ groceryList, recipes: [recipe, ...this.state.recipes] });
+    setGroceryList(groceryList);
+    setRecipes([...recipes, recipe])
   };
 
-  deleteRecipe = recipe => {
-    let groceryList = this.state.groceryList;
+  const deleteRecipe = recipe => {
     let ingredients = recipe["ingredients"];
 
     //remove ingredients from groceryList
@@ -98,12 +112,12 @@ export default class Books extends React.Component {
     });
     groceryList = groceryList.filter(({ amount }) => amount > 0);
 
-    let recipes = this.state.recipes;
-
     //remove recipe from recipeList
     recipes = recipes.filter(({ id }) => id !== recipe.id);
-    API.updateUser(this.state.username, { groceryList, recipes });
-    this.setState({ groceryList, recipes });
+    API.updateUser(user, { groceryList, recipes });
+
+    setGroceryList(groceryList);
+    setRecipes(recipes);
   };
 
   // useEffect(() => {s
@@ -129,15 +143,15 @@ export default class Books extends React.Component {
   //   setRecipes(newBooks);
   // }
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    // console.log("books.js", {name, value});
-    this.setState({
-      ...this.state,
-      [name]: value
-    });
-    console.log("this state", this.state);
-  };
+  // const handleInputChange = event => {
+  //   const { name, value } = event.target;
+  //   // console.log("books.js", {name, value});
+  //   this.setState({
+  //     ...this.state,
+  //     [name]: value
+  //   });
+  //   console.log("this state", this.state);
+  // };
 
   //  handleFormSubmit = event => {
   //   event.preventDefault();
@@ -155,14 +169,14 @@ export default class Books extends React.Component {
   //       .catch(err => console.log(err));
   //   }
   // };
-  render() {
+
     return (
       <Container fluid>
         <Row>
           <Col size="md-6">
             <AdvancedRecipeSearch
-              addRecipe={this.addRecipe}
-              deleteRecipe={this.deleteRecipe}
+              addRecipe={addRecipe}
+              deleteRecipe={deleteRecipe}
             />
           </Col>
           <Col size="md-6 sm-12">
@@ -176,8 +190,8 @@ export default class Books extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.recipes &&
-                  this.state.recipes.map((recipe, idx) => {
+                {recipes &&
+                  recipes.map((recipe, idx) => {
                     const {
                       diets,
                       ingredients,
@@ -191,7 +205,7 @@ export default class Books extends React.Component {
                     return (
                       <tr>
                         <th scope="row">
-                          <a onClick={() => this.deleteRecipe(recipe)}>x</a>
+                          <a onClick={() => deleteRecipe(recipe)}>x</a>
                         </th>
                         <td>
                           <a href={recipeUrl} target="_blank">
@@ -220,8 +234,8 @@ export default class Books extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.groceryList &&
-                  this.state.groceryList.map(
+                {groceryList &&
+                  groceryList.map(
                     ({ name, amount, aisle, unitLong, image }) => (
                       <tr>
                         <th scope="row">
@@ -245,4 +259,4 @@ export default class Books extends React.Component {
       </Container>
     );
   }
-}
+

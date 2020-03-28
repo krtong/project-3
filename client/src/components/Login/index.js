@@ -1,64 +1,64 @@
-import React from "react"; 
+import React, { useContext, useState } from "react";
+
 // sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
 // import './style-old.css';
 import './style.css'
 import axios from 'axios';
 import API from "../../utils/API";
-import { BrowserRouter as Redirect} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
 
+const Login = () => { 
+    // constructor(){
+    //     super()
+    //     this.state = {
+    //         username: "",
+    //         password: "",
+    //         redirect: false
+    //     }
+    // } 
+    const {setUser} = useContext(UserContext);
+    const [userdata, setUserdata] = useState({
+        username: "",
+        password: "",
+    });
+    
 
-class Login extends React.Component{ 
-    constructor(){
-        super()
-        this.state = {
-            username: "",
-            password: "",
-            redirect: false
-        }
-    } 
 
     // handle any changes to the input fields
-    handleInputChange = event => {
+    const handleInputChange = event => {
         // Pull the name and value properties off of the event.target (the element which triggered the event)
         const { name, value } = event.target;
         // Set the state for the appropriate input field
-        this.setState({
+        setUserdata({
+            ...userdata,
             [name]: value
         });
     };
 
-    redirectRender = () => {
-        // console.log("are we in redirectRender?")
-        const { redirect } = this.state;
-        // console.log(redirect);
-        if (redirect) {
-            // console.log("is this run?")
-            // return <Redirect to='/' />
-            this.props.history.push("/");
-        }
-    }
 
-    handleFormSubmit = event => {
+    const handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        if (!this.state.username || !this.state.password) {
+
+        const {username, password} = userdata;
+
+        if (!username || !password) {
             alert("Fill out all fields please!");
-        } else if (this.state.password.length < 6) {
-            alert(`Choose a more secure password ${this.state.firstName} ${this.state.lastName}`);
+        } else if (password.length < 6) {
+            alert(`Choose a more secure password `);
         } else {
-            alert(`Hello ${this.state.username}, your password: ${this.state.password}`);
+            alert(`Hello ${username}, your password: ${password}`);
             axios.post('/api/auth/login', {
-                username: this.state.username,
-                password: this.state.password
+                username: username,
+                password: password
             })
                 .then(response => {
                     // console.log("THIS ONE?",response)
                     if (response.data) {
                         console.log('Successful signup!');
-                        this.setState({
-                            redirect: true
-                        })
-                        this.redirectRender();
+
+                        setUser(username);
+
                     } else {
                         console.log('Signup error')
                     }
@@ -69,14 +69,13 @@ class Login extends React.Component{
         }
     }
 
-    handleGoogleSubmit = event => {
+    const handleGoogleSubmit = event => {
         event.preventDefault();
         console.log("are we here, before the api call")
         // axios.get('/api/auth/google');
         API.googleLogin();
     }
 
-    render() {
         return( 
 
 
@@ -105,9 +104,9 @@ class Login extends React.Component{
                                 <div>
                                     <label for="username">Username</label>
                                     <input
-                                        value={this.state.username}
+                                        value={userdata.username}
                                         name="username"
-                                        onChange={this.handleInputChange}
+                                        onChange={handleInputChange}
                                         type="text"
                                         // className="form-control"
                                         placeholder="Example McSample"
@@ -118,7 +117,7 @@ class Login extends React.Component{
                                 <div>
                                     <label for="email">Email</label>
                                     <input
-                                        value={this.state.email}
+                                        value={email}
                                         name="email"
                                         onChange={this.handleInputChange}
                                         type="text"
@@ -131,9 +130,9 @@ class Login extends React.Component{
                                 <div>
                                     <label for="password">Password</label>
                                     <input
-                                        value={this.state.password}
+                                        value={userdata.password}
                                         name="password"
-                                        onChange={this.handleInputChange}
+                                        onChange={handleInputChange}
                                         type="password"
                                         // className="form-control"
                                         placeholder="••••••••"
@@ -159,7 +158,7 @@ class Login extends React.Component{
                         <input 
                             type="submit" 
                             value="Sign Up"
-                            onClick={this.handleFormSubmit}
+                            onClick={handleFormSubmit}
                         />
                     </form>
                     <form id="form-login">
@@ -193,7 +192,7 @@ class Login extends React.Component{
             </main>
         )
     }
-}
+
 
 export default Login; 
 
