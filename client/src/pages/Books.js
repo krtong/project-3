@@ -71,6 +71,7 @@ export const Books = () => {
       }
     });
 
+    let groceryList2;
     if (groceryList.length === 0) groceryList = newIngredients;
 
     //sort groceryList by aisle

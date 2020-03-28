@@ -259,7 +259,7 @@ export default {
       method: "GET",
       url: "/auth/google",
       headers: {
-        "Access-Control-Allow-Origin": "http://domain.com:3000"
+        "Access-Control-Allow-Origin": "http://localhost.com:3000"
       }
     });
     // return axios.get("/api/auth/google");

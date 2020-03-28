@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NoMatch from "./pages/NoMatch";
 import RecipeSearch from "./pages/RecipeSearch";
@@ -8,11 +8,23 @@ import Login from "./components/Login";
 import { Books } from "./pages/Books";
 import Detail from "./pages/Detail";
 import { UserContext } from './context/UserContext';
+import { Base64 } from 'js-base64';
+import { useCookies } from 'react-cookie';
 
 
 function App() {
 
   const [user, setUser] = useState("");
+
+  const [cookies] = useCookies([]);
+
+  useEffect(() => {
+      console.log('cookies', cookies)
+      if (cookies['express:sess']) {
+          const cookieData = JSON.parse(Base64.decode(cookies['express:sess']));
+          setUser(cookieData.passport.user);
+      }
+  }, [])
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

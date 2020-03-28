@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 
-// sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
+
+
+
+// sorry cody i had to disable this because i cant figure out why it's  apply itself to  everything.
 // import './style-old.css';
 import './style.css'
 import axios from 'axios';
@@ -21,6 +24,9 @@ const Login = () => {
         username: "",
         password: "",
     });
+
+
+
     
 
 
@@ -143,14 +149,14 @@ const Login = () => {
                         <ul>
                             <li>
                                 {/* may need to go back and fix the route - for deployment? */}
-                                {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
+                                {/* <button className=" login-form fb" onClick={handleGoogleSubmit}>Connect with Google</button> */}
                                 <button className=" login-form fb">
-                                    <a  href="http://localhost:3001/auth/google">Connect with Google</a>
+                                    <a  href={`${process.env.REACT_APP_API_URL}/auth/google`}>Connect with Google</a>
                                 </button>
                             </li>
                             <li>
                                 <button  className=" login-form tw">
-                                    <a href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                    <a  href={`${process.env.REACT_APP_API_URL}/auth/facebook`}>Connect with Facebook</a>
                                 </button>
                             </li>
                         </ul>
