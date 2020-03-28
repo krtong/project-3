@@ -37,26 +37,38 @@ class Login extends React.Component{
                         <div>
                             <fieldset>
                                 <div>
-                                    <input id="name" type="text" placeholder="Marcia Polo"/>
+                                    <label for="name">Name</label>
                                     <input
                                         value={this.state.name}
                                         onChange={this.handleInputChange}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Type in a recipe name to begin"
+                                        placeholder="Example McSample"
                                     />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" placeholder="marcia@polo.com"/>
+                                    <input
+                                        value={this.state.email}
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Example McSample"
+                                    />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div>
                                     <label for="password">Password</label>
-                                    <input id="password" type="password" placeholder="••••••••"/>
+                                    <input
+                                        value={this.state.password}
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="••••••••"
+                                    />
                                 </div>
                             </fieldset>
                         </div>
