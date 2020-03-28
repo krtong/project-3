@@ -11,6 +11,7 @@ router.post('/login',
   passport.authenticate('local', { failureRedirect: '/' }),
   function(req, res) {
     console.log("SUCCESS")
+    // req.method= 'get'
     res.redirect('/');
   });
 
@@ -19,8 +20,13 @@ router.post('/login',
 // auth logout
 router.get("/logout", (req, res) => {
   // handle with passport
-  req.logout();
-  res.redirect("/");
+  // req.logout();
+  // res.redirect("/");
+
+  req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
+
 });
 
 

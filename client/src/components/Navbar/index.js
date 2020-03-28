@@ -37,6 +37,15 @@ function Navbar() {
               Login
             </Link>
           </li>
+          <li className="nav-item">
+            <a href="http://localhost:3001/auth/google" >Logout</a>
+            {/* <Link
+              to="/logout"
+              className={window.location.pathname === "/logout" ? "nav-link active" : "nav-link"}
+            >
+              Logout
+            </Link> */}
+          </li>
           {/* END Cody additions */}
           {/* ******************************************************** */}
         </ul>

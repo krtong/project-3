@@ -4,13 +4,16 @@ import React from "react";
 import './style.css'
 import axios from 'axios';
 import API from "../../utils/API";
+import { BrowserRouter as Redirect} from "react-router-dom";
+
 
 class Login extends React.Component{ 
     constructor(){
         super()
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            redirect: false
         }
     } 
 
@@ -23,6 +26,17 @@ class Login extends React.Component{
             [name]: value
         });
     };
+
+    redirectRender = () => {
+        // console.log("are we in redirectRender?")
+        const { redirect } = this.state;
+        // console.log(redirect);
+        if (redirect) {
+            // console.log("is this run?")
+            // return <Redirect to='/' />
+            this.props.history.push("/");
+        }
+    }
 
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
@@ -38,12 +52,13 @@ class Login extends React.Component{
                 password: this.state.password
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log("THIS ONE?",response)
                     if (response.data) {
                         console.log('Successful signup!');
                         this.setState({
-                            redirectTo: '/'
+                            redirect: true
                         })
+                        this.redirectRender();
                     } else {
                         console.log('Signup error')
                     }
@@ -54,7 +69,6 @@ class Login extends React.Component{
         }
     }
 
-
     handleGoogleSubmit = event => {
         event.preventDefault();
         console.log("are we here, before the api call")
@@ -62,9 +76,9 @@ class Login extends React.Component{
         API.googleLogin();
     }
 
-
     render() {
-        return(
+        return( 
+
 
             <main ontouchstart className=" login-form with-hover">
                 <aside className="login-form">
