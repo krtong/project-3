@@ -98,6 +98,7 @@ export default class Books extends React.Component {
 
       //remove recipe from recipeList
       recipes = recipes.filter(({id}) => id !== recipe.id)
+      API.updateUser(this.state.userID, { groceryList, recipes })
       this.setState({groceryList, recipes})
     }
 
