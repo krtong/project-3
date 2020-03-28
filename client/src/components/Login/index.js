@@ -1,5 +1,5 @@
 import React from "react"; 
-// sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
+// sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything. 
 // import './style-old.css';
 import './style.css'
 
@@ -14,8 +14,8 @@ class Login extends React.Component{
     render() {
         return(
 
-            <main ontouchstart className=" login-form with-hover">
-                <aside className="login-form">
+            <main ontouchstart class="with-hover">
+                <aside>
                     <div></div>
                     <svg viewBox="0 0 100 100">
                         <g stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -24,16 +24,16 @@ class Login extends React.Component{
                                     <label for="name">Name</label>
                     </svg>
                     <div>
-                        <p id="intro-signup" className=" login-form active"><strong>RecipeMe</strong> is even better with&nbsp;an&nbsp;account.</p>
+                        <p id="intro-signup" class="active"><strong>RecipeMe</strong> is even better with&nbsp;an&nbsp;account.</p>
                         <p id="intro-login">Welcome back to<br/><strong>RecipeMe</strong>!</p>
                     </div>
                 </aside>
                 <section>
                     <h1>
-                        <a id="link-signup" className=" login-form active">Sign Up</a>
+                        <a id="link-signup" class="active">Sign Up</a>
                         <a id="link-login">Log In</a>
                     </h1>
-                    <form id="form-signup" className=" login-form active">
+                    <form id="form-signup" class="active">
                         <div>
                             <fieldset>
                                 <div>
@@ -63,10 +63,10 @@ class Login extends React.Component{
                         <ul>
                             <li>
                                 {/* may need to go back and fix the route - for deployment? */}
-                                <a className=" login-form fb" href="http://localhost:3001/auth/google">Connect with Google</a>
+                                <a class="fb" href="http://localhost:3001/auth/google">Connect with Google</a>
                             </li>
                             <li>
-                                <a className=" login-form tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                <a class="tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
                             </li>
                         </ul>
                         
@@ -90,10 +90,10 @@ class Login extends React.Component{
             
                         <ul>
                             <li>
-                                <button className=" login-form fb" href="/">EHLLOLOLOLO</button>
+                                <button class="fb" href="/">EHLLOLOLOLO</button>
                             </li>
                             <li>
-                                <button className=" login-form tw">Connect with Twitter</button>
+                                <button class="tw">Connect with Twitter</button>
                             </li>
                         </ul>
                         
