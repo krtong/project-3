@@ -7,9 +7,41 @@ class Login extends React.Component{
     constructor(){
         super()
         this.state = {
-
+            name: "",
+            email: "",
+            password: ""
         }
     } 
+
+    // handle any changes to the input fields
+    handleInputChange = event => {
+        // Pull the name and value properties off of the event.target (the element which triggered the event)
+        const { name, value } = event.target;
+        // Set the state for the appropriate input field
+        this.setState({
+            [name]: value
+        });
+    };
+
+    handleFormSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
+        if (!this.state.name || !this.state.email || !this.state.password) {
+            alert("Fill out all fields please!");
+        } else if (this.state.password.length < 6) {
+            alert(`Choose a more secure password ${this.state.firstName} ${this.state.lastName}`);
+        } else {
+            alert(`Hello ${this.state.name} - your email: ${this.state.email}, your password: ${this.state.password}`);
+            axios
+        }
+    
+        // this.setState({
+        //   firstName: "",
+        //   lastName: "",
+        //   password: ""
+        // });
+    };
+
 
     render() {
         return(
@@ -40,9 +72,10 @@ class Login extends React.Component{
                                     <label for="name">Name</label>
                                     <input
                                         value={this.state.name}
+                                        name="name"
                                         onChange={this.handleInputChange}
                                         type="text"
-                                        className="form-control"
+                                        // className="form-control"
                                         placeholder="Example McSample"
                                     />
                                 </div>
@@ -52,10 +85,11 @@ class Login extends React.Component{
                                     <label for="email">Email</label>
                                     <input
                                         value={this.state.email}
+                                        name="email"
                                         onChange={this.handleInputChange}
                                         type="text"
-                                        className="form-control"
-                                        placeholder="Example McSample"
+                                        // className="form-control"
+                                        placeholder="example@sample.com"
                                     />
                                 </div>
                             </fieldset>
@@ -64,9 +98,10 @@ class Login extends React.Component{
                                     <label for="password">Password</label>
                                     <input
                                         value={this.state.password}
+                                        name="password"
                                         onChange={this.handleInputChange}
                                         type="text"
-                                        className="form-control"
+                                        // className="form-control"
                                         placeholder="••••••••"
                                     />
                                 </div>
@@ -82,7 +117,11 @@ class Login extends React.Component{
                             </li>
                         </ul>
                         
-                        <input type="submit" value="Sign Up"/>
+                        <input 
+                            type="submit" 
+                            value="Sign Up"
+                            onClick={this.handleFormSubmit}
+                        />
                     </form>
                     <form id="form-login">
                         <div>
