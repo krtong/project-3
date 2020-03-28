@@ -25,7 +25,7 @@ export default class Books extends React.Component {
   loadRecipes = async() => {
     try{
       const { data } = await API.getUser(this.state.userID);
-      console.log('data', data)
+      //console.log('data', data)
       const  { groceryList, recipes } = data;
 
       let ingredientsArray = []
@@ -41,7 +41,7 @@ export default class Books extends React.Component {
       this.loadRecipes();
     }
     addRecipe =  (recipe) => {
-      
+        console.log('recipe', recipe)
         let groceryList = this.state.groceryList
         const newIngredients =  recipe["ingredients"];
         console.log({newIngredients})
@@ -64,6 +64,17 @@ export default class Books extends React.Component {
           } else return a.aisle > b.aisle ? 1 : -1;
         }); 
 
+        // console.log('{recipes: this.state.recipes}', { recipes: [recipe, ...this.state.recipes]})
+        // let update = async () => {
+        //   try {
+        //     await API.updateUser(this.state.userID,{recipes: [recipe, ...this.state.recipes]})
+        //     console.log('object')
+        //   } catch (err) {
+        //     console.log(err)
+        //   }
+        // }
+        //update();
+      API.updateUser(this.state.userID, { groceryList, recipes: [recipe, ...this.state.recipes] })
         this.setState({groceryList, recipes: [recipe, ...this.state.recipes]})
     }
 
@@ -87,6 +98,7 @@ export default class Books extends React.Component {
 
       //remove recipe from recipeList
       recipes = recipes.filter(({id}) => id !== recipe.id)
+      API.updateUser(this.state.userID, { groceryList, recipes })
       this.setState({groceryList, recipes})
     }
 
