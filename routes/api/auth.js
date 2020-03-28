@@ -2,11 +2,24 @@
 const router = require("express").Router();
 const passport = require("passport");
 
+
+// Local auth *************************************
 // auth login
-router.post("/login", (req, res) => {
-  console.log("holy shit!!!!!!!!!!!")
-  // res.render("login", { user: req.user });
-});
+
+
+// router.post("/login", (req, res) => {
+//   console.log("holy shit!!!!!!!!!!!")
+//   // res.render("login", { user: req.user });
+// });
+
+router.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/' }),
+  function(req, res) {
+    console.log("SUCCESS")
+    res.redirect('/search');
+  });
+
+
 
 // auth logout
 router.get("/logout", (req, res) => {
@@ -15,7 +28,9 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-//Google oAuth
+
+
+// Google oAuth *************************************
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -29,7 +44,10 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   res.redirect("http://localhost:3000/search");
 });
 
-//Facebook oAuth
+
+
+
+//Facebook oAuth *************************************
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
@@ -48,6 +66,13 @@ router.get(
 );
 
 module.exports = router;
+
+
+// **********************************************************
+// GARBAGE BELOW - can likely delete later
+
+
+
 
 // const router = require("express").Router();
 // const passport = require("passport");
