@@ -1,6 +1,7 @@
 
 const router = require("express").Router();
 const passport = require("passport");
+const axios = require("axios");
 
 
 // Local auth *************************************
@@ -40,7 +41,6 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
 
 
 
-
 //Facebook oAuth *************************************
 router.get(
   "/facebook",
@@ -49,7 +49,7 @@ router.get(
   })
 );
 
-// callback route for google to redirect to
+// callback route for facebook to redirect to
 router.get(
   "api/facebook/redirect",
   passport.authenticate("facebook"),

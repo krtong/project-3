@@ -2,7 +2,8 @@ import React from "react";
 // sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
 // import './style-old.css';
 import './style.css'
-import axios from "axios";
+import axios from 'axios';
+import API from "../../utils/API";
 
 class Login extends React.Component{ 
     constructor(){
@@ -53,17 +54,13 @@ class Login extends React.Component{
         }
     }
 
-    // OTHERhandleFormSubmit = event => {
-    //     event.preventDefault();
-    //     API.getSearchRecipes(this.state.search)
-    //       .then(res => {
-    //         if (res.data.status === "error") {
-    //           throw new Error(res.data.message);
-    //         }
-    //         this.setState({ results: res.data.results, error: "", submitClicked: true});
-    //       })
-    //       .catch(err => this.setState({ error: err.message }));
-    //   };
+
+    handleGoogleSubmit = event => {
+        event.preventDefault();
+        console.log("are we here, before the api call")
+        // axios.get('/api/auth/google');
+        API.googleLogin();
+    }
 
 
     render() {
@@ -88,7 +85,7 @@ class Login extends React.Component{
                         <a id="link-signup" className=" login-form active">Sign Up</a>
                         <a id="link-login">Log In</a>
                     </h1>
-                    <form id="form-signup" className=" login-form active">
+                    <form id="form-signup" className="login-form active">
                         <div>
                             <fieldset>
                                 <div>
@@ -123,7 +120,7 @@ class Login extends React.Component{
                                         value={this.state.password}
                                         name="password"
                                         onChange={this.handleInputChange}
-                                        type="text"
+                                        type="password"
                                         // className="form-control"
                                         placeholder="••••••••"
                                     />
@@ -133,10 +130,15 @@ class Login extends React.Component{
                         <ul>
                             <li>
                                 {/* may need to go back and fix the route - for deployment? */}
-                                <a className=" login-form fb" href="http://localhost:3001/auth/google">Connect with Google</a>
+                                {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
+                                <button className=" login-form fb">
+                                    <a  href="http://localhost:3001/auth/google">Connect with Google</a>
+                                </button>
                             </li>
                             <li>
-                                <a className=" login-form tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                <button  className=" login-form tw">
+                                    <a href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                </button>
                             </li>
                         </ul>
                         

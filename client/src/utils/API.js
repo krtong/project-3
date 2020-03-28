@@ -231,6 +231,37 @@ export default {
   },
   googleLogin: function(){
     console.log("test");
-    return axios.get("/api/google");
+    //shouldn't the route be /auth/google ?  Could be!
+    //this is just an http GET request. so we gotta follow the file tree to see where to go next  
+    // Yes - so, we basically just have to get "/auth/google" to fire, then that gets passport going
+    //a cors error means the headers for your HTTP request are wrong.
+    //Yeah, i was trying to fix the headers, couldn't get it to work
+    //fuck all of this... its way over our heads. it'll work fine if...  Was following some examples, but not really sure how it is implemented
+    //we want to accept the origin of localhost:3000
+    
+    return axios({
+      method: "GET",
+      url: "/auth/google",
+      headers:{
+        "Access-Control-Allow-Origin": "http://domain.com:3000"
+      }
+    });
+    // return axios.get("/api/auth/google");
+    // return axios.get("/auth/google");
+    // return axios.get("/api/auth/google");
   }
 };
+
+// const SPOONACULAR_API = (url, params = {}) => {
+//   console.log({url, params})
+//   return axios({
+//     method:"GET",
+//     url:"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com" + url,
+//     headers:{
+//       "content-type":"application/octet-stream",
+//       "x-rapidapi-key": "79cdd77d2emsh1fcd47944c92478p11ac47jsn27dbe9aa5a72",
+//       "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+//     },
+//     params : {...params}
+//   });
+// };
