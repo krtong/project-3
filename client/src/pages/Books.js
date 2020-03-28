@@ -24,9 +24,13 @@ export default class Books extends React.Component {
   
   loadRecipes = async() => {
     try{
-      const { data } = await API.getUser(this.state.userID);
+      console.log("TESTTESTTESTTESTTESTTESTTEST")
+       const { data } = await API.getUsers();
+      const  { groceryList, recipes } = data.filter(user => user.userID === this.state.userID)[0];
+      // const { data } = await API.getUser(this.state.userID);
       console.log('data', data)
-      const  { groceryList, recipes } = data;
+      // const  { groceryList, recipes } = data;
+
 
       let ingredientsArray = []
       recipes.forEach(({ingredients}) => ingredients.forEach(ingredient => ingredientsArray.push(ingredient)));
