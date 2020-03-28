@@ -2,17 +2,83 @@ import React from "react";
 // sorry cody i had to disable this because i cant figure out why it's  apply itself to fucking everything.
 // import './style-old.css';
 import './style.css'
+import axios from 'axios';
+import API from "../../utils/API";
+import { BrowserRouter as Redirect} from "react-router-dom";
+
 
 class Login extends React.Component{ 
     constructor(){
         super()
         this.state = {
-
+            username: "",
+            password: "",
+            redirect: false
         }
     } 
 
+    // handle any changes to the input fields
+    handleInputChange = event => {
+        // Pull the name and value properties off of the event.target (the element which triggered the event)
+        const { name, value } = event.target;
+        // Set the state for the appropriate input field
+        this.setState({
+            [name]: value
+        });
+    };
+
+    redirectRender = () => {
+        // console.log("are we in redirectRender?")
+        const { redirect } = this.state;
+        // console.log(redirect);
+        if (redirect) {
+            // console.log("is this run?")
+            // return <Redirect to='/' />
+            this.props.history.push("/");
+        }
+    }
+
+    handleFormSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
+        if (!this.state.username || !this.state.password) {
+            alert("Fill out all fields please!");
+        } else if (this.state.password.length < 6) {
+            alert(`Choose a more secure password ${this.state.firstName} ${this.state.lastName}`);
+        } else {
+            alert(`Hello ${this.state.username}, your password: ${this.state.password}`);
+            axios.post('/api/auth/login', {
+                username: this.state.username,
+                password: this.state.password
+            })
+                .then(response => {
+                    // console.log("THIS ONE?",response)
+                    if (response.data) {
+                        console.log('Successful signup!');
+                        this.setState({
+                            redirect: true
+                        })
+                        this.redirectRender();
+                    } else {
+                        console.log('Signup error')
+                    }
+                }).catch(err => {
+                    console.log('Sign up server error: ')
+                    console.log(err)
+                })
+        }
+    }
+
+    handleGoogleSubmit = event => {
+        event.preventDefault();
+        console.log("are we here, before the api call")
+        // axios.get('/api/auth/google');
+        API.googleLogin();
+    }
+
     render() {
-        return(
+        return( 
+
 
             <main ontouchstart className=" login-form with-hover">
                 <aside className="login-form">
@@ -33,44 +99,68 @@ class Login extends React.Component{
                         <a id="link-signup" className=" login-form active">Sign Up</a>
                         <a id="link-login">Log In</a>
                     </h1>
-                    <form id="form-signup" className=" login-form active">
+                    <form id="form-signup" className="login-form active">
                         <div>
                             <fieldset>
                                 <div>
-                                    <input id="name" type="text" placeholder="Marcia Polo"/>
+                                    <label for="username">Username</label>
                                     <input
-                                        value={this.state.name}
+                                        value={this.state.username}
+                                        name="username"
                                         onChange={this.handleInputChange}
                                         type="text"
-                                        className="form-control"
-                                        placeholder="Type in a recipe name to begin"
+                                        // className="form-control"
+                                        placeholder="Example McSample"
                                     />
                                 </div>
                             </fieldset>
-                            <fieldset>
+                            {/* <fieldset>
                                 <div>
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" placeholder="marcia@polo.com"/>
+                                    <input
+                                        value={this.state.email}
+                                        name="email"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        // className="form-control"
+                                        placeholder="example@sample.com"
+                                    />
                                 </div>
-                            </fieldset>
+                            </fieldset> */}
                             <fieldset>
                                 <div>
                                     <label for="password">Password</label>
-                                    <input id="password" type="password" placeholder="••••••••"/>
+                                    <input
+                                        value={this.state.password}
+                                        name="password"
+                                        onChange={this.handleInputChange}
+                                        type="password"
+                                        // className="form-control"
+                                        placeholder="••••••••"
+                                    />
                                 </div>
                             </fieldset>
                         </div>
                         <ul>
                             <li>
                                 {/* may need to go back and fix the route - for deployment? */}
-                                <a className=" login-form fb" href="http://localhost:3001/auth/google">Connect with Google</a>
+                                {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
+                                <button className=" login-form fb">
+                                    <a  href="http://localhost:3001/auth/google">Connect with Google</a>
+                                </button>
                             </li>
                             <li>
-                                <a className=" login-form tw" href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                <button  className=" login-form tw">
+                                    <a href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                </button>
                             </li>
                         </ul>
                         
-                        <input type="submit" value="Sign Up"/>
+                        <input 
+                            type="submit" 
+                            value="Sign Up"
+                            onClick={this.handleFormSubmit}
+                        />
                     </form>
                     <form id="form-login">
                         <div>

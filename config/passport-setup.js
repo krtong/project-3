@@ -1,6 +1,10 @@
 const passport = require('passport');
+
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+const bcrypt = require('bcrypt');
 
 const keys = require('./keys');
 const User = require('../models/user')
@@ -73,3 +77,58 @@ passport.use(
     })
   })
 )
+
+// //From the passport documentation
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false); }
+//       if (!user.verifyPassword(password)) { return done(null, false); }
+//       return done(null, user);
+//     });
+//   }
+// ));
+
+passport.use(
+  new LocalStrategy(
+    function(username, password, done) {
+      User.findOne({ username: username }).then((currentUser) => {
+        if(currentUser) {
+          // already have the user
+          console.log('user is: ', currentUser)
+          done(null, currentUser)
+        } else {
+          // if not, create new user in db
+          const newUser = new User({
+            username: username,
+            password: password,
+          });
+
+          console.log("arrived before bcrypt");
+          console.log(newUser)
+
+          bcrypt.genSalt(10, (err, salt) => 
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              // Set password to hashed
+              newUser.password = hash;
+              // Save User
+              newUser.save()
+                .then(user => {
+                  done(null, user)
+                })
+                .catch(err => console.log(err));
+            }))
+          
+          // .save().then((newUser) => {
+          //   console.log(`new user created: ${newUser}`)
+          //   done(null, newUser)
+          // })
+
+        }
+      })
+    }
+  )
+)
+

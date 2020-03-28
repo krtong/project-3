@@ -1,20 +1,37 @@
 
 const router = require("express").Router();
 const passport = require("passport");
+const axios = require("axios");
 
+
+// Local auth *************************************
 // auth login
-router.get("/login", (req, res) => {
-  res.render("login", { user: req.user });
-});
+
+router.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/' }),
+  function(req, res) {
+    console.log("SUCCESS")
+    // req.method= 'get'
+    res.redirect('/');
+  });
+
+
 
 // auth logout
 router.get("/logout", (req, res) => {
   // handle with passport
-  req.logout();
-  res.redirect("/");
+  // req.logout();
+  // res.redirect("/");
+
+  req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
+
 });
 
-//Google oAuth
+
+
+// Google oAuth *************************************
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -28,7 +45,9 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   res.redirect("http://localhost:3000/search");
 });
 
-//Facebook oAuth
+
+
+//Facebook oAuth *************************************
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
@@ -36,7 +55,7 @@ router.get(
   })
 );
 
-// callback route for google to redirect to
+// callback route for facebook to redirect to
 router.get(
   "api/facebook/redirect",
   passport.authenticate("facebook"),
@@ -47,6 +66,13 @@ router.get(
 );
 
 module.exports = router;
+
+
+// **********************************************************
+// GARBAGE BELOW - can likely delete later
+
+
+
 
 // const router = require("express").Router();
 // const passport = require("passport");

@@ -34,6 +34,11 @@ app.use('/auth', authRoutes);
 app.use(routes);
 
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/cookingdb");
