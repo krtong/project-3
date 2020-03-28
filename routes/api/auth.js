@@ -6,17 +6,11 @@ const passport = require("passport");
 // Local auth *************************************
 // auth login
 
-
-// router.post("/login", (req, res) => {
-//   console.log("holy shit!!!!!!!!!!!")
-//   // res.render("login", { user: req.user });
-// });
-
 router.post('/login', 
   passport.authenticate('local', { failureRedirect: '/' }),
   function(req, res) {
     console.log("SUCCESS")
-    res.redirect('/search');
+    res.redirect('/');
   });
 
 

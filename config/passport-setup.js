@@ -76,6 +76,7 @@ passport.use(
   })
 )
 
+//From the passport documentation
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.findOne({ username: username }, function (err, user) {
@@ -86,3 +87,27 @@ passport.use(new LocalStrategy(
     });
   }
 ));
+
+passport.use(
+  new LocalStrategy(
+    function(username, password, done) {
+      User.findOne({ username: username }).then((currentUser) => {
+        if(currentUser) {
+          // already have the user
+          console.log('user is: ', currentUser)
+          done(null, currentUser)
+        } else {
+          // if not, create new user in db
+          new User({
+            username: username,
+            password: password,
+          }).save().then((newUser) => {
+            console.log(`new user created: ${newUser}`)
+            done(null, newUser)
+          })
+        }
+      })
+    }
+  )
+)
+

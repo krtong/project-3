@@ -8,8 +8,7 @@ class Login extends React.Component{
     constructor(){
         super()
         this.state = {
-            name: "",
-            email: "",
+            username: "",
             password: ""
         }
     } 
@@ -27,15 +26,14 @@ class Login extends React.Component{
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        if (!this.state.name || !this.state.email || !this.state.password) {
+        if (!this.state.username || !this.state.password) {
             alert("Fill out all fields please!");
         } else if (this.state.password.length < 6) {
             alert(`Choose a more secure password ${this.state.firstName} ${this.state.lastName}`);
         } else {
-            alert(`Hello ${this.state.name} - your email: ${this.state.email}, your password: ${this.state.password}`);
+            alert(`Hello ${this.state.username}, your password: ${this.state.password}`);
             axios.post('/api/auth/login', {
-                name: this.state.name,
-                email: this.state.email,
+                username: this.state.username,
                 password: this.state.password
             })
                 .then(response => {
@@ -94,10 +92,10 @@ class Login extends React.Component{
                         <div>
                             <fieldset>
                                 <div>
-                                    <label for="name">Name</label>
+                                    <label for="username">Username</label>
                                     <input
-                                        value={this.state.name}
-                                        name="name"
+                                        value={this.state.username}
+                                        name="username"
                                         onChange={this.handleInputChange}
                                         type="text"
                                         // className="form-control"
@@ -105,7 +103,7 @@ class Login extends React.Component{
                                     />
                                 </div>
                             </fieldset>
-                            <fieldset>
+                            {/* <fieldset>
                                 <div>
                                     <label for="email">Email</label>
                                     <input
@@ -117,7 +115,7 @@ class Login extends React.Component{
                                         placeholder="example@sample.com"
                                     />
                                 </div>
-                            </fieldset>
+                            </fieldset> */}
                             <fieldset>
                                 <div>
                                     <label for="password">Password</label>
