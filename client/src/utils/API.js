@@ -255,13 +255,13 @@ export default {
     //fuck all of this... its way over our heads. it'll work fine if...  Was following some examples, but not really sure how it is implemented
     //we want to accept the origin of localhost:3000
 
-    return axios({
-      method: "GET",
-      url: "/auth/google",
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost.com:3000"
-      }
-    });
+    // return axios({
+    //   method: "GET",
+    //   url: "/auth/google",
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "http://localhost.com:3000"
+    //   }
+    // });
     // return axios.get("/api/auth/google");
     // return axios.get("/auth/google");
     // return axios.get("/api/auth/google");

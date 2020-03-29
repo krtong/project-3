@@ -151,12 +151,12 @@ const Login = () => {
                                 {/* may need to go back and fix the route - for deployment? */}
                                 {/* <button className=" login-form fb" onClick={handleGoogleSubmit}>Connect with Google</button> */}
                                 <button className=" login-form fb">
-                                    <a  href={`${process.env.REACT_APP_API_URL}/auth/google`}>Connect with Google</a>
+                                    <a  href={`${process.env.REACT_APP_API_SERVER_URL}/auth/google`}>Connect with Google</a>
                                 </button>
                             </li>
                             <li>
                                 <button  className=" login-form tw">
-                                    <a  href={`${process.env.REACT_APP_API_URL}/auth/facebook`}>Connect with Facebook</a>
+                                    <a  href={`${process.env.REACT_APP_API_SERVER_URL}/auth/facebook`}>Connect with Facebook</a>
                                 </button>
                             </li>
                         </ul>

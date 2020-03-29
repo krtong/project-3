@@ -42,7 +42,7 @@ router.get(
 // callback route for google to redirect to
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   // res.send(req.user)
-  res.redirect("http://localhost:3000/search");
+  res.redirect(`${process.env.REACT_APP_API_CLIENT_URL}/search`);
 });
 
 
@@ -61,7 +61,7 @@ router.get(
   passport.authenticate("facebook"),
   (req, res) => {
     // res.send(req.user)
-    res.redirect("http://localhost:3000/search");
+    res.redirect(`${process.env.REACT_APP_API_CLIENT_URL}/search`);
   }
 );
 
