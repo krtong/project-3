@@ -9,9 +9,15 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
-    console.log("req.params", req.params);
+    console.log("///////////////////////////////////////////////////////////");
+    console.log("🐱‍👤req.params", req.params);
+    console.log("///////////////////////////////////////////////////////////");
     db.User.findOne({ username: req.params.username })
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel =>{
+        console.log("this comment says cheese🐥")
+        console.log(dbModel)
+        res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
   findGroceryList: function(req, res) {
