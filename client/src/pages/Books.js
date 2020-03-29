@@ -44,19 +44,23 @@ const Books = () => {
   
   //[+]Recipe button on click():
   const addRecipe = recipe => {
-    const newIngredients = recipe["ingredients"];
-    console.log({ newIngredients });
-    let newGroceryList = [...groceryList];
+    const newIngredients = recipe.ingredients;
+    let newGroceryList = groceryList;
 
     //combine old groceryList with newGroceryList
     newIngredients.forEach(newItem => {
-      for (let i = 0; i < newGroceryList.length; i++) {
-        let oldItem = newGroceryList[i];
+      for (let idx = 0; idx < newGroceryList.length; idx++) {
+        let oldItem = newGroceryList[idx];
+
         //if ingredients don't already exist, push them to the end of array.
-        if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id) return newGroceryList.push(newItem);
+        if (newGroceryList.length-1 === idx && newItem.id !== oldItem.id) {
+          return newGroceryList.push(newItem)
+        }
 
         //else if ingredients do exist, add to the amount.
-        else if (newItem.id === oldItem.id) return (newGroceryList[i].amount += newItem.amount);
+        else if (newItem.id === oldItem.id) {
+          return (oldItem.amount += newItem.amount)
+        };
       }
     });
 
@@ -83,23 +87,24 @@ const Books = () => {
     let newGroceryList = groceryList;
 
     //remove ingredients from groceryList
-    newGroceryList.forEach((item, idx) => {
+    newGroceryList.forEach((oldItem, idx) => {
       for (let i = 0; i < ingredients.length; i++) {
         const newItem = ingredients[i];
-        if (item.id === newItem.id) {
+
+        if (oldItem.id === newItem.id) {
           newGroceryList[idx].amount -= newItem.amount;
         }
       }
     });
 
-
+    //remove items with amounts of 0.
     newGroceryList = newGroceryList.filter(({ amount }) => amount > 0);
 
     //remove recipe from recipeList
     let newRecipes = recipes.filter(({ id }) => id !== recipe.id);
 
     //update state and user API
-    updateStateAndMongo(newGroceryList, newRecipes)
+    updateStateAndMongo(newGroceryList, newRecipes);
   };
 
 
