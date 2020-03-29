@@ -44,16 +44,16 @@ const Books = () => {
   
   //[+]Recipe button on click():
   const addRecipe = recipe => {
-    const newIngredients = recipe["ingredients"];
-    let newGroceryList = [...groceryList];
+    const newIngredients = recipe.ingredients;
+    let newGroceryList = groceryList;
 
     //combine old groceryList with newGroceryList
     newIngredients.forEach(newItem => {
-      for (let idx = 1; idx <= newGroceryList.length; idx++) {
+      for (let idx = 0; idx < newGroceryList.length; idx++) {
         let oldItem = newGroceryList[idx];
 
         //if ingredients don't already exist, push them to the end of array.
-        if (newGroceryList.length === idx && newItem.id !== oldItem.id) {
+        if (newGroceryList.length-1 === idx && newItem.id !== oldItem.id) {
           return newGroceryList.push(newItem)
         }
 
@@ -90,7 +90,7 @@ const Books = () => {
     newGroceryList.forEach((oldItem, idx) => {
       for (let i = 0; i < ingredients.length; i++) {
         const newItem = ingredients[i];
-        
+
         if (oldItem.id === newItem.id) {
           newGroceryList[idx].amount -= newItem.amount;
         }
