@@ -6,7 +6,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const bcrypt = require('bcrypt');
 
-const keys = require('./keys');
+const keys = require('./keys') || require('./environmentalVars');
 const User = require('../models/user')
 
 passport.serializeUser((user, done) => {
