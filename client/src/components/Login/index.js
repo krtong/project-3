@@ -145,7 +145,7 @@ const Login = () => {
                                 {/* may need to go back and fix the route - for deployment? */}
                                 {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
                                 <button className=" login-form fb">
-                                    <a  href="http://localhost:3001/auth/google">Connect with Google</a>
+                                    <a  href="http://localhost:3001/api/auth/google">Connect with Google</a>
                                 </button>
                             </li>
                             <li>

@@ -40,8 +40,10 @@ router.get(
 );
 
 // callback route for google to redirect to
-router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  // res.send(req.user)
+// router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+router.get("/google/redirect", passport.authenticate("google"), (req, res) => {  
+// res.send(req.user)
+  console.log("ARE WE IN JUST AUTH?")
   res.redirect("http://localhost:3000/search");
 });
 
