@@ -10,8 +10,7 @@ module.exports = new aws.S3({
       clientSecret: process.env.FACEBOOK_CLIENTSECRET
     },
     mongodb: {
-      dbURI: process.env.MONGODB_URI,
-      mongolabBlueURI: process.env.MONGOLAB_BLUE_URI
+      dbURI: process.env.MONGOLAB_BLUE_URI/* process.env.MONGODB_URI */,
     },
     session: {
       cookieKey: process.env.SESSION_COOKIEKEY
