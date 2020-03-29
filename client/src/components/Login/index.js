@@ -21,6 +21,8 @@ const Login = () => {
         username: "",
         password: "",
     });
+    const [registerActiveId, setRegisterActiveId] = useState(true);
+    const [loginActiveId, setLoginActiveId] = useState(false);
     
 
 
@@ -36,7 +38,8 @@ const Login = () => {
     };
 
 
-    const handleFormSubmit = event => {
+    //Need to add more input
+    const handleRegisterSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
@@ -70,6 +73,58 @@ const Login = () => {
         }
     }
 
+
+    // I think things are good here...
+    const handleLoginSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
+
+        const {username, password} = userdata;
+
+        if (!username || !password) {
+            alert("Fill out all fields please!");
+        } else if (password.length < 6) {
+            alert(`Choose a more secure password `);
+        } else {
+            alert(`Hello ${username}, your password: ${password}`);
+            axios.post('/api/auth/login', {
+                username: username,
+                password: password
+            })
+                .then(response => {
+                    // console.log("THIS ONE?",response)
+                    if (response.data) {
+                        console.log('Successful signup!');
+                        setUser(username);
+                        //brings user to shopping list
+                        window.location = "/"
+
+                    } else {
+                        console.log('Signup error')
+                    }
+                }).catch(err => {
+                    console.log('Sign up server error: ')
+                    console.log(err)
+                })
+        }
+    }
+
+
+
+    console.log('registerActiveId', registerActiveId);
+    console.log('loginActiveId', loginActiveId);
+    const loginClickHandler = event => {
+        event.preventDefault();
+        setLoginActiveId(true);
+        setRegisterActiveId(false);
+    }
+
+    const registerClickHandler = event => {
+        event.preventDefault();
+        setLoginActiveId(false);
+        setRegisterActiveId(true);
+    }
+
     const handleGoogleSubmit = event => {
         event.preventDefault();
         console.log("are we here, before the api call")
@@ -96,10 +151,10 @@ const Login = () => {
                 </aside>
                 <section>
                     <h1>
-                        <a id="link-signup" className=" login-form active">Sign Up</a>
-                        <a id="link-login">Log In</a>
+                        <a id="link-signup" onClick={registerClickHandler} className={registerActiveId && 'login-form active'}>Sign Up</a>
+                        <a id="link-login" onClick={loginClickHandler} className={loginActiveId && 'signup-form active'}>Log In</a>
                     </h1>
-                    <form id="form-signup" className="login-form active">
+                    <form id="form-signup" className={loginActiveId && 'signup-form active'}>
                         <div>
                             <fieldset>
                                 <div>
@@ -158,11 +213,11 @@ const Login = () => {
                         
                         <input 
                             type="submit" 
-                            value="Sign Up"
-                            onClick={handleFormSubmit}
+                            value="Sign In"
+                            onClick={handleLoginSubmit}
                         />
                     </form>
-                    <form id="form-login">
+                    <form id="form-login" className={registerActiveId && 'login-form active'}>
                         <div>
                             <fieldset>
                                 <div>
@@ -177,17 +232,32 @@ const Login = () => {
                                 </div>
                             </fieldset>
                         </div>
-            
+
+                        {/* Good */}
                         <ul>
                             <li>
-                                <button className=" login-form fb" href="/">EHLLOLOLOLO</button>
+                                {/* may need to go back and fix the route - for deployment? */}
+                                {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
+                                <button className=" login-form fb">
+                                    <a  href={`${process.env.REACT_APP_API_SERVER_URL}/api/auth/google`}>Connect with Google</a>
+                                </button>
                             </li>
                             <li>
-                                <button className=" login-form tw">Connect with Twitter</button>
+                                <button  className=" login-form tw">
+                                    <a href={`${process.env.REACT_APP_API_SERVER_URL}/api/auth/facebook`}>Connect with Facebook</a>
+                                </button>
                             </li>
                         </ul>
+
+
                         
-                        <input type="submit" value="Log In"/>
+                        {/* <input type="submit" value="Register Now"/> */}
+                        <input 
+                            type="submit" 
+                            value="Sign In"
+                            onClick={handleRegisterSubmit}
+                        />
+
                     </form>
                 </section>
             </main>
