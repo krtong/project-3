@@ -1,39 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-// import DeleteBtn from "../components/DeleteBtn";
-// import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
-// import { List, ListItem } from "../components/List";
-// import { Input, TextArea, FormBtn } from "../components/Form";
-//import { LikeButton } from "../components/LikeButton";
 import { UserContext } from "../context/UserContext";
-//import { RecipeContext } from "../context/RecipeContext";
 import AdvancedRecipeSearch from "../pages/AdvancedSearch";
-
 export const Books = () => {
-  const { user, setUser } = useContext(UserContext);
 
+  //setState: user: "" / groceryList:[] / recipes:[]
+  const { user, setUser } = useContext(UserContext);
   const [groceryList, setGroceryList] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  //const [ingredients, setIngredients] = useState([]);
-
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     title: "",
-  //     id: "",
-  //     username: "chrisMcKee"
-  //   };
-  // }
+  const defaultUser = "Guest";
 
   const loadRecipes = async () => {
-    console.log("USER IS HERE: ", user);
+    // if (typeof user === "undefined") var user = "chrisMcKee"
     try {
-      const { data } = await API.getUser(user);
-      //console.log('data', data)
-      const { groceryList, recipes } = data;
+      
+      //get json affiliated with user
+      const { data } = await API.getUser(user || defaultUser); //if there is no user this will return 'undefined'
+      console.log("USER IS HERE: ", typeof user);
+      console.log("😥🤔", { data });
+      const { groceryList, recipes } = data; //and this will be blank.
 
+      //if json a
       let ingredientsArray = [];
       recipes.forEach(({ ingredients }) =>
         ingredients.forEach(ingredient => ingredientsArray.push(ingredient))
@@ -43,32 +31,33 @@ export const Books = () => {
       setRecipes(recipes);
       //setIngredients(ingredientsArray);
     } catch (err) {
-      console.log(err);
+      console.log({err, user});
     }
   };
 
+  //id what to title this thing.
   useEffect(() => {
-    setUser("chrisMcKee");
+    setUser(user);
     loadRecipes();
   }, [user]);
 
+  //[+]Recipe button onClick:
   const addRecipe = recipe => {
-    console.log("recipe", recipe);
     const newIngredients = recipe["ingredients"];
     console.log({ newIngredients });
     let newGroceryList = [...groceryList];
 
-    //combine ingredients amounts if they exist. push them if they don't.
     newIngredients.forEach(newItem => {
       for (let i = 0; i < newGroceryList.length; i++) {
         let oldItem = newGroceryList[i];
-        if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id)
-          return newGroceryList.push(newItem);
-        else if (newItem.id === oldItem.id)
-          return (newGroceryList[i].amount += newItem.amount);
+        //if ingredients don't already exist, push them to the end of array.
+        if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id) return newGroceryList.push(newItem);
+        //if ingredients do exist, add the amounts.
+        else if (newItem.id === oldItem.id) return (newGroceryList[i].amount += newItem.amount);
       }
     });
 
+    //
     if (newGroceryList.length === 0) {
       newIngredients.forEach(ingredient => newGroceryList.push(ingredient));
     }
@@ -79,18 +68,9 @@ export const Books = () => {
         return a.name > b.name ? 1 : 0;
       } else return a.aisle > b.aisle ? 1 : -1;
     });
-
-    // console.log('{recipes: this.state.recipes}', { recipes: [recipe, ...this.state.recipes]})
-    // let update = async () => {
-    //   try {
-    //     await API.updateUser(this.state.username,{recipes: [recipe, ...this.state.recipes]})
-    //     console.log('object')
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
-    // }
-    //update();
-    API.updateUser(user, {
+    
+    console.log("🥗...recipes", recipes)
+    API.updateUser(user || defaultUser, {
       groceryList: newGroceryList,
       recipes: [...recipes, recipe]
     });
@@ -120,56 +100,6 @@ export const Books = () => {
     setRecipes(recipes);
   };
 
-  // useEffect(() => {s
-  //    if (recipes.length === 0) {
-  //    loadRecipes();
-  //    }
-  //  }, []);
-
-  //  deleteBook = id => {
-  //   API.deleteBook(id)
-  //     .then(res => {
-  //       const remainingBooks = users.filter(user => user._id !== id);
-  //       setRecipes(remainingBooks);
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-
-  //  incrementLikes = id => {
-  //   console.log('id of book to increase likes', id, users);
-  //   const indexToUpdate = users.findIndex(user => user._id === id);
-  //   const newBooks = [...users];
-  //   newBooks[indexToUpdate].likes = newBooks[indexToUpdate].likes ? newBooks[indexToUpdate].likes + 1 : 1;
-  //   setRecipes(newBooks);
-  // }
-
-  // const handleInputChange = event => {
-  //   const { name, value } = event.target;
-  //   // console.log("books.js", {name, value});
-  //   this.setState({
-  //     ...this.state,
-  //     [name]: value
-  //   });
-  //   console.log("this state", this.state);
-  // };
-
-  //  handleFormSubmit = event => {
-  //   event.preventDefault();
-
-  //   const {id, title} = formData;
-  //   //id and title are getting this far... error must be after here... 🌭
-  //   console.log({id, title})
-
-  //  if (title && id) {
-  //     API.saveRecipe({
-  //       title,
-  //       id
-  //     })
-  //       .then(res => loadRecipes())
-  //       .catch(err => console.log(err));
-  //   }
-  // };
-
   return (
     <Container fluid>
       <Row>
@@ -177,6 +107,7 @@ export const Books = () => {
           <AdvancedRecipeSearch
             addRecipe={addRecipe}
             deleteRecipe={deleteRecipe}
+            user={user || defaultUser}
           />
         </Col>
         <Col size="md-6 sm-12">

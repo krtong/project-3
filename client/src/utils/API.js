@@ -218,7 +218,7 @@ export default {
   getUsers: function() {
     return axios.get("/api/users");
   },
-  // Gets the user with the given id
+  // Gets the user with the given username
   getUser: function(username) {
     return axios.get("/api/users/" + username);
   },
