@@ -12,6 +12,7 @@ const Books = () => {
   const [recipes, setRecipes] = useState([]);
   const defaultUser = "Guest";
 
+  //on pageload()
   const loadRecipes = async () => {
     try {
     const { data } = await API.getUser(user || defaultUser);
@@ -29,12 +30,13 @@ const Books = () => {
     loadRecipes();
   }, [user]);
 
-  //[+]Recipe button onClick:
+  //[+]Recipe button on click():
   const addRecipe = recipe => {
     const newIngredients = recipe["ingredients"];
     console.log({ newIngredients });
     let newGroceryList = [...groceryList];
 
+    //combine old groceryList with newGroceryList
     newIngredients.forEach(newItem => {
       for (let i = 0; i < newGroceryList.length; i++) {
         let oldItem = newGroceryList[i];
@@ -45,7 +47,7 @@ const Books = () => {
       }
     });
 
-    // if the 
+    // if newGroceryList is empty...
     if (newGroceryList.length === 0) {
       newIngredients.forEach(ingredient => newGroceryList.push(ingredient));
     };
@@ -57,36 +59,42 @@ const Books = () => {
       } else return a.aisle > b.aisle ? 1 : -1;
     });
     
+    //update user API
     API.updateUser(user || defaultUser, {
       groceryList: newGroceryList,
       recipes: [...recipes, recipe]
     });
 
+    //set state
     setGroceryList(newGroceryList);
     setRecipes([...recipes, recipe]);
   };
 
-
+  //x recipelist button on click()
   const deleteRecipe = recipe => {
     let ingredients = recipe["ingredients"];
-
+    let newGroceryList = groceryList;
     //remove ingredients from groceryList
-    groceryList.forEach((item, idx) => {
+    newGroceryList.forEach((item, idx) => {
       for (let i = 0; i < ingredients.length; i++) {
         const newItem = ingredients[i];
         if (item.id === newItem.id) {
-          groceryList[idx].amount -= newItem.amount;
+          newGroceryList[idx].amount -= newItem.amount;
         }
       }
     });
-    groceryList = groceryList.filter(({ amount }) => amount > 0);
+    newGroceryList = newGroceryList.filter(({ amount }) => amount > 0);
 
     //remove recipe from recipeList
-    recipes = recipes.filter(({ id }) => id !== recipe.id);
-    API.updateUser(user, { groceryList, recipes });
+    let newRecipes = recipes.filter(({ id }) => id !== recipe.id);
+    API.updateUser(user, {recipes,  groceryList : newGroceryList });
 
-    setGroceryList(groceryList);
-    setRecipes(recipes);
+    API.updateUser(user || defaultUser, {
+      groceryList: newGroceryList,
+      recipes: newRecipes
+    });
+    setRecipes(newRecipes);
+    setGroceryList(newGroceryList);
   };
 
   return (
