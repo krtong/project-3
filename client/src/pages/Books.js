@@ -6,11 +6,13 @@ import AdvancedRecipeSearch from "../pages/AdvancedSearch";
 
 
 const Books = () => {
+
   //setState: user: "" / groceryList:[] / recipes:[]
   const { user, setUser } = useContext(UserContext);
   const [groceryList, setGroceryList] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const defaultUser = "Guest";
+  
 
   //on pageload()
   const loadRecipes = async () => {
@@ -24,12 +26,22 @@ const Books = () => {
     }
   };
 
+
+  //run at bottom of adding and deleting recipe functions
+  const updateStateAndMongo = (groceryList, recipes) => {
+    API.updateUser(user || defaultUser, {groceryList,  recipes});
+    setGroceryList(groceryList);
+    setRecipes(recipes);
+  }
+
+
   //runs on user state changes
   useEffect(() => {
     setUser(user);
     loadRecipes();
   }, [user]);
 
+  
   //[+]Recipe button on click():
   const addRecipe = recipe => {
     const newIngredients = recipe["ingredients"];
@@ -42,6 +54,7 @@ const Books = () => {
         let oldItem = newGroceryList[i];
         //if ingredients don't already exist, push them to the end of array.
         if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id) return newGroceryList.push(newItem);
+
         //else if ingredients do exist, add to the amount.
         else if (newItem.id === oldItem.id) return (newGroceryList[i].amount += newItem.amount);
       }
@@ -59,21 +72,16 @@ const Books = () => {
       } else return a.aisle > b.aisle ? 1 : -1;
     });
     
-    //update user API
-    API.updateUser(user || defaultUser, {
-      groceryList: newGroceryList,
-      recipes: [...recipes, recipe]
-    });
-
-    //set state
-    setGroceryList(newGroceryList);
-    setRecipes([...recipes, recipe]);
+    //update state and user API
+    updateStateAndMongo(newGroceryList, [...recipes, recipe]);
   };
+
 
   //x recipelist button on click()
   const deleteRecipe = recipe => {
     let ingredients = recipe["ingredients"];
     let newGroceryList = groceryList;
+
     //remove ingredients from groceryList
     newGroceryList.forEach((item, idx) => {
       for (let i = 0; i < ingredients.length; i++) {
@@ -83,31 +91,34 @@ const Books = () => {
         }
       }
     });
+
+
     newGroceryList = newGroceryList.filter(({ amount }) => amount > 0);
 
     //remove recipe from recipeList
     let newRecipes = recipes.filter(({ id }) => id !== recipe.id);
-    API.updateUser(user, {recipes,  groceryList : newGroceryList });
 
-    API.updateUser(user || defaultUser, {
-      groceryList: newGroceryList,
-      recipes: newRecipes
-    });
-    setRecipes(newRecipes);
-    setGroceryList(newGroceryList);
+    //update state and user API
+    updateStateAndMongo(newGroceryList, newRecipes)
   };
+
 
   return (
     <Container fluid>
       <Row>
+
         <Col size="md-6">
+
           <AdvancedRecipeSearch
             addRecipe={addRecipe}
             deleteRecipe={deleteRecipe}
             user={user || defaultUser}
           />
+
         </Col>
+
         <Col size="md-6 sm-12">
+
           <table class="table table-sm table-dark">
             <thead>
               <tr>
@@ -118,8 +129,9 @@ const Books = () => {
               </tr>
             </thead>
             <tbody>
-              {recipes &&
-                recipes.map((recipe, idx) => {
+
+              {recipes && recipes
+                .map((recipe, idx) => {
                   const {diets,ingredients,id,title,readyInMinutes,servings,imageURL,recipeUrl} = recipe;
                   return (
                     <tr>
@@ -140,6 +152,7 @@ const Books = () => {
                     </tr>
                   );
                 })}
+
             </tbody>
           </table>
 
@@ -153,8 +166,10 @@ const Books = () => {
               </tr>
             </thead>
             <tbody>
-              {groceryList &&
-                groceryList.map(({ name, amount, aisle, unitLong, image }) => (
+
+              {groceryList && groceryList
+                .map(({ name, amount, aisle, unitLong, image }) => (
+
                   <tr>
                     <th scope="row">
                       <img
@@ -168,10 +183,14 @@ const Books = () => {
                       {amount} {unitLong}
                     </td>
                   </tr>
+
                 ))}
+
             </tbody>
           </table>
+
         </Col>
+
       </Row>
     </Container>
   );
