@@ -52,7 +52,7 @@ passport.use(
 
 passport.use(
   new FacebookStrategy({
-    callbackURL: '/auth/facebook/redirect',
+    callbackURL: '/api/auth/facebook/redirect',
     clientID: keys.facebook.clientID,
     clientSecret: keys.facebook.clientSecret
   }, (accessToken, refreshToken, profile, done) => {

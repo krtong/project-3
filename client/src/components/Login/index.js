@@ -56,8 +56,9 @@ const Login = () => {
                     // console.log("THIS ONE?",response)
                     if (response.data) {
                         console.log('Successful signup!');
-
                         setUser(username);
+                        //brings user to shopping list
+                        window.location = "/"
 
                     } else {
                         console.log('Signup error')
@@ -145,12 +146,12 @@ const Login = () => {
                                 {/* may need to go back and fix the route - for deployment? */}
                                 {/* <button className=" login-form fb" onClick={this.handleGoogleSubmit}>Connect with Google</button> */}
                                 <button className=" login-form fb">
-                                    <a  href="http://localhost:3001/api/auth/google">Connect with Google</a>
+                                    <a  href={`${process.env.REACT_APP_API_SERVER_URL}/api/auth/google`}>Connect with Google</a>
                                 </button>
                             </li>
                             <li>
                                 <button  className=" login-form tw">
-                                    <a href="http://localhost:3001/auth/facebook">Connect with Facebook</a>
+                                    <a href={`${process.env.REACT_APP_API_SERVER_URL}/api/auth/facebook`}>Connect with Facebook</a>
                                 </button>
                             </li>
                         </ul>

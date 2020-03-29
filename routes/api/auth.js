@@ -10,9 +10,9 @@ const axios = require("axios");
 router.post('/login', 
   passport.authenticate('local', { failureRedirect: '/' }),
   function(req, res) {
-    console.log("SUCCESS")
-    // req.method= 'get'
-    res.redirect('/');
+    console.log("SUCCESS HERE, above redirect")
+    // Cannot redirect from the server with axios, has to be on client
+    res.redirect(`${process.env.REACT_APP_API_CLIENT_URL}/`);
   });
 
 
@@ -42,9 +42,8 @@ router.get(
 // callback route for google to redirect to
 // router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {  
-// res.send(req.user)
-  console.log("ARE WE IN JUST AUTH?")
-  res.redirect("http://localhost:3000/search");
+  // res.send(req.user)
+  res.redirect(`${process.env.REACT_APP_API_CLIENT_URL}/`);
 });
 
 
@@ -59,11 +58,12 @@ router.get(
 
 // callback route for facebook to redirect to
 router.get(
-  "api/facebook/redirect",
+  "/facebook/redirect",
   passport.authenticate("facebook"),
   (req, res) => {
+    console.log("do we arrive to facebook redirect?")
     // res.send(req.user)
-    res.redirect("http://localhost:3000/search");
+    res.redirect(`${process.env.REACT_APP_API_CLIENT_URL}/`);
   }
 );
 

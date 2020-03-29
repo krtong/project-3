@@ -3,7 +3,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
-// const authRoutes = require('./routes/auth-routes') HERE!
 const routes = require("./routes");
 
 const passport = require('passport');
@@ -30,7 +29,6 @@ app.use(cookieSession({
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session()); // Used to persist login sessions
 
-// app.use('/auth', authRoutes); //HERE!
 app.use(routes);
 
 
