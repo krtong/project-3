@@ -5,17 +5,16 @@ import RecipeSearch from "./pages/RecipeSearch";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
-import { Books } from "./pages/Books";
+import Books from "./pages/Books";
 import Detail from "./pages/Detail";
-import { UserContext } from './context/UserContext';
+import { BookContext } from './context/BookContext';
 
 
 function App() {
 
-  const [user, setUser] = useState("");
-
+  const [books, setBooks] = useState([]);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <BookContext.Provider value={{ books, setBooks }}>
 
     <Router>
       <div>
@@ -29,12 +28,11 @@ function App() {
           <Route exact path="/books" component={Books} />
           <Route exact path="/books/:id" component={Detail} />
 
-
           <Route component={NoMatch} />
         </Switch>
       </div>
     </Router>
-    </UserContext.Provider>
+    </BookContext.Provider>
 
   );
 }
