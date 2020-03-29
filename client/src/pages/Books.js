@@ -13,24 +13,17 @@ const Books = () => {
   const defaultUser = "Guest";
 
   const loadRecipes = async () => {
-    // if (typeof user === "undefined") var user = "chrisMcsKee"
     try {
-      
-      //get json affiliated with user
-      const { data } = await API.getUser(user || defaultUser); //if there is no user this will return 'undefined'
-      console.log("USER IS HERE: ", typeof user);
-      console.log("😥🤔", { data });
-      const { groceryList, recipes } = data; //and this will be blank.
-      console.log("recipes")
-
-      setGroceryList(groceryList);
-      setRecipes(recipes);
+    const { data } = await API.getUser(user || defaultUser);
+    const { groceryList: grocertListFromAPI, recipes: recipeListFromAPI } = data; //and this will be blank.
+    setGroceryList(grocertListFromAPI);
+    setRecipes(recipeListFromAPI);
     } catch (err) {
       console.log({err, user});
     }
   };
 
-  //id what to title this thing.
+  //runs on user state changes
   useEffect(() => {
     setUser(user);
     loadRecipes();
@@ -38,30 +31,24 @@ const Books = () => {
 
   //[+]Recipe button onClick:
   const addRecipe = recipe => {
-
     const newIngredients = recipe["ingredients"];
     console.log({ newIngredients });
-
     let newGroceryList = [...groceryList];
-    
-    console.log("🥬grocery list", groceryList)
+
     newIngredients.forEach(newItem => {
       for (let i = 0; i < newGroceryList.length; i++) {
         let oldItem = newGroceryList[i];
         //if ingredients don't already exist, push them to the end of array.
         if (i + 1 === newGroceryList.length && newItem.id !== oldItem.id) return newGroceryList.push(newItem);
-        //if ingredients do exist, add the amounts.
+        //else if ingredients do exist, add to the amount.
         else if (newItem.id === oldItem.id) return (newGroceryList[i].amount += newItem.amount);
       }
     });
 
-    console.log("newGroceryList1", newGroceryList)
-    //
+    // if the 
     if (newGroceryList.length === 0) {
       newIngredients.forEach(ingredient => newGroceryList.push(ingredient));
-    }
-    console.log("newGroceryList2", newGroceryList)
-
+    };
 
     //sort newGroceryList by aisle
     newGroceryList.sort((a, b) => {
@@ -70,14 +57,15 @@ const Books = () => {
       } else return a.aisle > b.aisle ? 1 : -1;
     });
     
-    console.log("🥗...recipes", recipes)
     API.updateUser(user || defaultUser, {
       groceryList: newGroceryList,
       recipes: [...recipes, recipe]
     });
+
     setGroceryList(newGroceryList);
     setRecipes([...recipes, recipe]);
   };
+
 
   const deleteRecipe = recipe => {
     let ingredients = recipe["ingredients"];
