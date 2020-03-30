@@ -27,8 +27,6 @@ function Navbar() {
               Advanced
             </Link>
           </li>
-          {/* ******************************************************** */}
-          {/* START Cody additions */}
           <li className="nav-item">
             <Link
               to="/login"
@@ -38,16 +36,8 @@ function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
-            <a href="http://localhost:3001/auth/google" >Logout</a>
-            {/* <Link
-              to="/logout"
-              className={window.location.pathname === "/logout" ? "nav-link active" : "nav-link"}
-            >
-              Logout
-            </Link> */}
+            <a href={`${process.env.REACT_APP_API_SERVER_URL}/api/auth/logout`} className="nav-link">Logout</a>
           </li>
-          {/* END Cody additions */}
-          {/* ******************************************************** */}
         </ul>
       </div>
     </nav>

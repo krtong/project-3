@@ -1,3 +1,4 @@
+const flash = require("connect-flash");
 const passport = require('passport');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -10,11 +11,12 @@ const keys = require('./keys') || require('./environmentalVars');
 const User = require('../models/user')
 
 passport.serializeUser((user, done) => {
-  console.log('user.id HERE: ', user.id)
+  console.log('serialize user here: ', user.id)
   done(null, user.id)
 })
 
 passport.deserializeUser((id, done) => {
+  console.log("deserialize user here: ", id)
   User.findById(id).then((user) => {
     done(null, user)
   })
@@ -92,17 +94,58 @@ passport.use(
 
 passport.use(
   new LocalStrategy(
-    function(username, password, done) {
+    {
+      usernameField: 'username',
+      passwordField: 'password',
+      passReqToCallback: true
+    },
+    function(req, username, password, done) {
+      console.log('req.body.email', req.body.email);
+      console.log('username', username);
+      console.log('password', password);
+
+      // CASE 1:
+        // The User exists, they enter correct password
+      // CASE 2:
+        // The User exists, they enter INcorrect password
+      // CASE 3:
+        // The User does not exist, create new user
+
+      
+      //IF THERE IS ALREADY THIS USER
       User.findOne({ username: username }).then((currentUser) => {
-        if(currentUser) {
-          // already have the user
-          console.log('user is: ', currentUser)
-          done(null, currentUser)
+        // const bcryptCompare;
+        console.log("=======================")
+        console.log("Begin user flow here:")
+        //If the user already exists in our DB...
+        if (currentUser){
+          console.log("**User already exists")
+          
+          //Check to see if password is correct...
+          var bcryptCompare;
+          bcrypt.compare(password, currentUser.password).then(function(result) {
+            // console.log("Just before bcrypt assigns...");
+            bcryptCompare = result;
+            // console.log("bcryptCompare: ", bcryptCompare);
+            if (bcryptCompare) {
+              console.log("**Password was correct")
+              done(null, currentUser)
+            } else {
+              console.log("**Password was incorrect")
+              return done(null, false, {message: 'Incorrect password.'});
+            }
+          });
+        } else if (!req.body.email) {
+          console.log("**Was login, and User didn't exst")
+          return done(null, false, {message: 'User does not exist.'});
         } else {
+          // If we do not find this user in DB, create new user  
           // if not, create new user in db
+          console.log("**This is a new user")
           const newUser = new User({
             username: username,
             password: password,
+            email: req.body.email
           });
 
           console.log("arrived before bcrypt");
@@ -121,10 +164,6 @@ passport.use(
                 .catch(err => console.log(err));
             }))
           
-          // .save().then((newUser) => {
-          //   console.log(`new user created: ${newUser}`)
-          //   done(null, newUser)
-          // })
 
         }
       })
