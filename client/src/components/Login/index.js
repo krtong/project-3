@@ -72,7 +72,6 @@ const Login = () => {
         } else if (password.length < 6) {
             alert(`Choose a more secure password `);
         } else {
-            alert(`Hello ${username}, your password: ${password}`);
             axios.post('/api/auth/login', {
                 username: username,
                 password: password,
